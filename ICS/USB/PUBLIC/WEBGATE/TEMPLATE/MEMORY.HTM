@@ -1,0 +1,29 @@
+<HTML>
+<!-- Vijeo Web Gate HTTP server -->
+<HEAD>
+	<TITLE>Vijeo Web Gate</TITLE>
+	<link href="html/lib/css/main.css" type="text/css" rel="stylesheet" charset="ISO-8859-1">
+	<link href="html/lib/css/static.css" type="text/css" rel="stylesheet" charset="ISO-8859-1">
+    <script language="javascript" src="html/config.js" type="text/javascript"></script>
+</HEAD>
+<BODY>
+<table width="100%" border="0">
+<tr>
+	<td class="title">Memory Statistics</td>
+</tr>
+<tr>
+<td>
+<table class="statictable" width="200px" align="center" rules="all" frame="border">
+	<tr><td colspan="2" class="tabletitle">Memory Use</td></tr>
+	<tr><td class="staticlabel">Total</td><td class="staticvalue"><%= memory_total %></td></tr>
+	<tr><td class="staticlabel">Used</td><td class="staticvalue"><%= memory_used %></td></tr>
+</table>
+</td>
+
+</tr>
+<tr>
+	<td align="center">Copyright &copy <script language="javascript">InsertYears()</script>, Schneider Electric. All Rights Reserved.</td>
+</tr>
+</table>
+</BODY>
+</HTML>

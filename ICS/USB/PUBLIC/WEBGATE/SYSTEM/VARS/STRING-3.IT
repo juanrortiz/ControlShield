@@ -1,0 +1,24 @@
+var lang = 
+{ 
+  title:            "Browser variabili",
+  connectionLost:	"Connessione interrotta",
+  addVarTitle:		"Aggiungere variabili all'elenco",
+  add:				"Aggiungi",
+  cancel:			"Annulla",
+  editMode:			"Modalità modifica",
+  newList:			"Nuovo elenco ...",
+  deleteSelected:	"Elimina variabili selezionate?",
+  changeValue:		"Cambia valore",
+  name:				"Nome",
+  value:			"Valore",
+  changeVarTitle:	"Cambia valore",
+  write:			"Scrivi",
+  viewAs:			"Vedi come:",
+  nameFilter:		"Filtro nome",
+  deleteSelectedList:"Eliminare elenco selezionato?",
+  deleteList:       "Elimina elenco",
+  listAlreadyExists:"Errore: il nome dell'elenco esiste già.",
+  maxNumberOfLists: "Errore, raggiunto il numero massimo di elenchi.",
+  varOutOfRange:    "Errore, inserito valore fuori intervallo.",
+  maxVarsInList:    "Errore, raggiunto il numero massimo di variabili nell'elenco."
+}

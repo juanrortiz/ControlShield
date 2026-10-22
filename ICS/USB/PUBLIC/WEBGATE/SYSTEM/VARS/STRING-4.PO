@@ -1,0 +1,24 @@
+var lang = 
+{ 
+  title:            "Navegador de variáveis",
+  connectionLost:	"Conexão perdida",
+  addVarTitle:		"Adicionar variáveis à lista",
+  add:				"Adicionar",
+  cancel:			"Cancelar",
+  editMode:			"Modo de edição",
+  newList:			"Nova lista...",
+  deleteSelected:	"Excluir as variáveis selecionadas?",
+  changeValue:		"Alterar valor",
+  name:				"Nome",
+  value:			"Valor",
+  changeVarTitle:	"Alterar valor",
+  write:			"Gravar",
+  viewAs:			"Visualizar como:",
+  nameFilter:		"Filtro de nome",
+  deleteSelectedList:"Excluir a lista selecionada?",
+  deleteList:       "Excluir lista",
+  listAlreadyExists:"Erro, nome da lista já existe.",
+  maxNumberOfLists: "Erro, O número máximo das listas foi alcançado",
+  varOutOfRange:    "Erro, Valor de entrada fora da faixa.",
+  maxVarsInList:    "Erro, Número máximo de variáveis na lista alcançado."
+}

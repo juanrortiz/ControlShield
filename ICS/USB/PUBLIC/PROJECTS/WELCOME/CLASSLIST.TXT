@@ -1,0 +1,8 @@
+Projects/Welcome/WindowDB
+Projects/Welcome/Panel1
+Projects/Welcome/Panel1Smart
+Projects/Welcome/XprSrv
+Projects/Welcome/TagDB
+Projects/Welcome/Startup
+Projects/Welcome/ExternalCmdScript
+

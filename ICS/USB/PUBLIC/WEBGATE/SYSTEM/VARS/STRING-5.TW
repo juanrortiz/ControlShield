@@ -1,0 +1,24 @@
+﻿var lang = 
+{ 
+  title:            "變數瀏覽器",
+  connectionLost:	"連接中斷",
+  addVarTitle:		"加入變數至清單",
+  add:				"加入",
+  cancel:			"取消",
+  editMode:			"編輯模式",
+  newList:			"新的清單 ...",
+  deleteSelected:	"刪除所選的變數?",
+  changeValue:		"變更數值",
+  name:				"名稱",
+  value:			"數值",
+  changeVarTitle:	"變更數值",
+  write:			"寫入",
+  viewAs:			"檢視方式:",
+  nameFilter:		"名稱篩選器",
+  deleteSelectedList:"刪除所選的清單?",
+  deleteList:       "刪除清單",
+  listAlreadyExists:"錯誤,清單名稱已存在.",
+  maxNumberOfLists: "錯誤,已達到清單數目上限.",
+  varOutOfRange:    "錯誤,輸入數值超出範圍.",
+  maxVarsInList:    "錯誤,已達到清單中變數數目上限."
+}

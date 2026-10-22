@@ -1,0 +1,30 @@
+<html>
+<!-- Vijeo Web Gate HTTP server -->
+<head>
+	<title>Vijeo Web Gate</title>
+	<link href="html/lib/css/main.css" type="text/css" rel="stylesheet" charset="ISO-8859-1" />
+</head>
+<body>
+<table width="100%" border="0">
+<tr>
+	<td class="title">WEB GATE</td>
+</tr>
+<tr>
+<td align="center">
+<script type="text/javascript">
+document.writeln ('<object id="KoohiActiveXControl" classid="CLSID:5877891B-9DFE-4052-B8B3-3DE4E7B4F469"')
+document.writeln ('  width="<%= webgate_width %>" height="<%= webgate_height %>">')
+document.writeln ('  <param name="WebGateLanguage" value="2:" />')
+document.writeln ('  <param name="TargetIPAddress" value="<%= request_host_ip_address %>" />')
+document.writeln ('  <param name="TargetPort" value="<%= request_host_port %>" />')
+document.writeln ('  <param name="LanguageList" value="<%= webgate_language_list %>" />')
+document.writeln ('  <param name="WebGateVersion" value="6" />')
+document.writeln ('  <param name="Cookies" value="'+document.cookie+'" />')
+document.writeln ('Vous devez installer le contrôle <a href="html/french/monitoring/install.htm">ActiveX de Vijeo Web Gate</a>')
+document.writeln ('</object>')
+</script>
+</td>
+</tr>
+</table>
+</body>
+</html>

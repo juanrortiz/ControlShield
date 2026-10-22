@@ -1,0 +1,33 @@
+<HTML>
+<!-- Vijeo Web Gate HTTP server -->
+<HEAD>
+	<TITLE>Vijeo Web Gate</TITLE>
+	<link href="html/lib/css/main.css" type="text/css" rel="stylesheet" charset="ISO-8859-1">
+	<link href="html/lib/css/static.css" type="text/css" rel="stylesheet" charset="ISO-8859-1">
+    <script language="javascript" src="html/config.js" type="text/javascript"></script>
+</HEAD>
+<BODY>
+<table width="100%" border="0">
+<tr>
+	<td class="title">Ethernet & TCP / IP-Statistik</td>
+</tr>
+<tr>
+<td>
+<table class="statictable" width="400px" align="center" rules="all" frame="border">
+	<tr><td colspan="3" class="tabletitle">TCP / IP-Statistik</td></tr>
+	<tr><td class="staticlabel">IP-Adresse</td><td class="staticvalue"><%= ethernet_ip_address1 %></td><td class="staticvalue"><%= ethernet_ip_address2 %></td></tr>
+	<tr><td class="staticlabel">Subnet-Maske</td><td class="staticvalue"><%= ethernet_subnet_mask1 %></td><td class="staticvalue"><%= ethernet_subnet_mask2 %></td></tr>
+	<tr><td class="staticlabel">Standard-Gateway</td><td class="staticvalue"><%= ethernet_default_gateway1 %></td><td class="staticvalue"><%= ethernet_default_gateway2 %></td></tr>
+
+	<tr><td colspan="3" class="tabletitle">Ethernet-Parameter</td></tr>
+	<tr><td class="staticlabel">MAC-Adresse</td><td class="staticvalue"><%= ethernet_mac_address1 %></td><td class="staticvalue"><%= ethernet_mac_address2 %></td></tr>
+	<tr><td class="staticlabel">Ethernet Frame Format</td><td class="staticvalue"><%= ethernet_frame_format1 %></td><td class="staticvalue"><%= ethernet_frame_format2 %></td></tr>
+</table>
+</td>
+</tr>
+<tr>
+	<td align="center">Copyright (C) <script language="javascript">InsertYears()</script>, Schneider-Electric Industries SAS. Alle Rechte vorbehalten.</td>
+</tr>
+</table>
+</BODY>
+</HTML>

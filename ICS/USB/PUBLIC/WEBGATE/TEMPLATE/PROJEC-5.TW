@@ -1,0 +1,31 @@
+<HTML>
+<!-- Vijeo Web Gate HTTP server -->
+<HEAD>
+	<TITLE>Vijeo Web Gate</TITLE>
+	<link href="html/lib/css/main.css" type="text/css" rel="stylesheet" charset="ISO-8859-1">
+	<link href="html/lib/css/static.css" type="text/css" rel="stylesheet" charset="ISO-8859-1">
+	<script language="javascript" src="html/config.js" type="text/javascript"></script>
+</HEAD>
+<BODY>
+<table width="100%" border="0">
+<tr>
+	<td class="title">&#x5DE5;&#x7A0B;&#x7D71;&#x8A08;&#x8CC7;&#x6599;</td>
+</tr>
+<tr>
+<td>
+<table class="statictable" width="300px" align="center" rules="all" frame="border">
+	<tr><td colspan="2" class="tabletitle">&#x5DE5;&#x7A0B;&#x53C3;&#x6578;</td></tr>
+	<tr><td class="staticlabel">&#x9762;&#x677F;&#x985E;&#x578B;</td><td class="staticvalue"><%= project_panel_type %></td></tr>
+	<tr><td class="staticlabel">&#x5DE5;&#x7A0B;&#x540D;&#x7A31;</td><td class="staticvalue"><%= project_name %></td></tr>
+	<tr><td class="staticlabel">&#x76EE;&#x6A19;&#x540D;&#x7A31;</td><td class="staticvalue"><%= project_target_name %></td></tr>
+	<tr><td class="staticlabel">&#x7DE8;&#x8F2F;&#x5668;&#x7248;&#x672C;</td><td class="staticvalue"><%= project_editor_version %></td></tr>
+	<tr><td class="staticlabel">Runtime &#x7248;&#x672C;</td><td class="staticvalue"><%= project_runtime_version %></td></tr>
+</table>
+</td>
+</tr>
+<tr>
+	<td align="center">Copyright (C) <script language="javascript">InsertYears()</script>, Schneider Electric. &#x7248;&#x6B0A;&#x6240;&#x6709;&#x3002;</td>
+</tr>
+</table>
+</BODY>
+</HTML>

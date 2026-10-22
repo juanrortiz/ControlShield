@@ -1,0 +1,24 @@
+var lang = 
+{ 
+  title:            "Variablen-Browser",
+  connectionLost:	"Verbindung unterbrochen",
+  addVarTitle:		"Variablen zur Liste hinzufügen",
+  add:				"Hinzufügen",
+  cancel:			"Abbrechen",
+  editMode:			"Modus Bearbeiten",
+  newList:			"Neue Liste ...",
+  deleteSelected:	"Ausgewählte Variablen löschen?",
+  changeValue:		"Wert ändern",
+  name:				"Name",
+  value:			"Wert",
+  changeVarTitle:	"Wert ändern",
+  write:			"Schreiben",
+  viewAs:			"Anzeigen als:",
+  nameFilter:		"Namensfilter",
+  deleteSelectedList:"Ausgewählte Liste löschen?",
+  deleteList:       "Liste löschen",
+  listAlreadyExists:"Fehler - Listenname bereits vorhanden.",
+  maxNumberOfLists: "Fehler: Max. Anzahl von Listen erreicht.",
+  varOutOfRange:    "Fehler: Eingabewert außerhalb des gültigen Bereichs.",
+  maxVarsInList:    "Fehler: Max. Anzahl von Variablen in Liste erreicht."
+}

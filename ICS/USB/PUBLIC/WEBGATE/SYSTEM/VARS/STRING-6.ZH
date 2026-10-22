@@ -1,0 +1,24 @@
+﻿var lang = 
+{ 
+  title:            "变量浏览",
+  connectionLost:	"连接失败",
+  addVarTitle:		"将变量添加到列表中",
+  add:				"添加",
+  cancel:			"取消",
+  editMode:			"编辑模式",
+  newList:			"新建列表…",
+  deleteSelected:	"需要删除所选变量?",
+  changeValue:		"更改变量",
+  name:				"名称",
+  value:			"数值",
+  changeVarTitle:	"更改数值",
+  write:			"写入",
+  viewAs:			"V浏览方式:",
+  nameFilter:		"名称过滤",
+  deleteSelectedList:"需要删除所选列表？",
+  deleteList:       "删除列表",
+  listAlreadyExists:"错误，列表名已存在。 ",
+  maxNumberOfLists: "错误，列表个数超出最大数。",
+  varOutOfRange:    "错误，输入值超出范围。",
+  maxVarsInList:    "错误，列表中的变量个数已超出最大值。"
+}

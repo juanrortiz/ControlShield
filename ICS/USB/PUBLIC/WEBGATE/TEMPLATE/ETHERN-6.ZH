@@ -1,0 +1,38 @@
+<HTML>
+<!-- Vijeo Web Gate HTTP server -->
+<HEAD>
+	<TITLE>Vijeo Web Gate</TITLE>
+	<link href="html/lib/css/main.css" type="text/css" rel="stylesheet" charset="ISO-8859-1">
+	<link href="html/lib/css/static.css" type="text/css" rel="stylesheet" charset="ISO-8859-1">
+    <script language="javascript" src="html/config.js" type="text/javascript"></script>
+</HEAD>
+<BODY>
+<table width="100%" border="0">
+<tr>
+	<td class="title">&#x4EE5;&#x592A;&#x7F51;&TCP/IP&#x7EDF;&#x8BA1;</td>
+</tr>
+<tr>
+<td>
+<table class="statictable" width="400px" align="center" rules="all" frame="border">
+	<tr><td colspan="3" class="tabletitle">TCP / IP&#x53C2;&#x6570;</td></tr>
+	<tr><td class="staticlabel">IP&#x5730;&#x5740;</td><td class="staticvalue"><%= ethernet_ip_address1 %></td>
+		<td class="staticvalue"><%= ethernet_ip_address2 %></td></tr>
+	<tr><td class="staticlabel">&#x5B50;&#x7F51;&#x63A9;&#x7801;</td><td class="staticvalue"><%= ethernet_subnet_mask1 %></td>
+		<td class="staticvalue"><%= ethernet_subnet_mask2 %></td></tr>
+	<tr><td class="staticlabel">&#x9ED8;&#x8BA4;&#x7F51;&#x5173;</td><td class="staticvalue"><%= ethernet_default_gateway1 %></td>
+		<td class="staticvalue"><%= ethernet_default_gateway2 %></td></tr>
+
+	<tr><td colspan="3" class="tabletitle">&#x4EE5;&#x592A;&#x7F51;&#x53C2;&#x6570;</td></tr>
+	<tr><td class="staticlabel">MAC&#x5730;&#x5740;</td><td class="staticvalue"><%= ethernet_mac_address1 %></td>
+		<td class="staticvalue"><%= ethernet_mac_address2 %></td></tr>
+	<tr><td class="staticlabel">&#x4EE5;&#x592A;&#x7F51;&#x5E27;&#x683C;&#x5F0F;</td>
+		<td class="staticvalue"><%= ethernet_frame_format1 %></td><td class="staticvalue"><%= ethernet_frame_format2 %></td></tr>
+</table>
+</td>
+</tr>
+<tr>
+	<td align="center">&#x7248;&#x6743;(C) <script language="javascript">InsertYears()</script>&#xFF0C; &#x7248;&#x6743;&#x6240;&#x6709; Schneider-Electric Industries SAS&#x3002;</td>
+</tr>
+</table>
+</BODY>
+</HTML>
