@@ -1,0 +1,47 @@
+diff -u -x __pycache__ a/guardian/plcguard/analyzer.py b/guardian/plcguard/analyzer.py
+--- a/guardian/plcguard/analyzer.py	2026-10-21 11:13:14.489112498 -0700
++++ b/guardian/plcguard/analyzer.py	2026-10-21 11:13:52.742339775 -0700
+@@ -160,6 +160,7 @@
+ 
+ def analyze_pcap(path: str, config: Config, evlog: Optional[EvidenceLog], baseline=None,
+                  on_event=None) -> Analyzer:
++    import scapy.layers.l2, scapy.layers.inet  # noqa: F401  register link types BEFORE opening the file
+     from scapy.utils import PcapReader
+     a = Analyzer(config, evlog, sensor=f"pcap:{path.replace(chr(92), '/').split('/')[-1]}",
+                  baseline=baseline, ts_source="pcap", on_event=on_event)
+diff -u -x __pycache__ a/guardian/plcguard/baseline.py b/guardian/plcguard/baseline.py
+--- a/guardian/plcguard/baseline.py	2026-10-21 11:13:14.489086481 -0700
++++ b/guardian/plcguard/baseline.py	2026-10-21 11:13:14.511798982 -0700
+@@ -27,7 +27,8 @@
+         s["requests"] += 1
+         s["categories"][r["category"]] += 1
+         s["fcs"][str(r["fc"])] += 1
+-        s["signatures"].add(f"{r['fc']}:{r.get('address')}:{r.get('quantity')}")
++        s["signatures"].add(f"90:sub{r.get('subcode')}" if r["fc"] == 90
++                            else f"{r['fc']}:{r.get('address')}:{r.get('quantity')}")
+         s["ts"].append(r["ts_epoch"])
+         s["units"].add(r["unit"])
+         if r.get("src_mac"):
+diff -u -x __pycache__ a/guardian/plcguard/policy.py b/guardian/plcguard/policy.py
+--- a/guardian/plcguard/policy.py	2026-10-21 11:13:14.489308906 -0700
++++ b/guardian/plcguard/policy.py	2026-10-21 11:13:14.511345053 -0700
+@@ -57,6 +57,9 @@
+         src = cfg.sources.get(src_ip)
+         cat = frame.category
+         enf = cfg["enforcement"]
++        # FC 90 sub-codes observed as routine HMI polling can be declared read-only per source
++        if frame.fc == 90 and src is not None and frame.subcode in src.get("fc90_read_subcodes", []):
++            cat = "read"
+ 
+         # 1. Who is talking? -------------------------------------------------
+         if src is None:
+@@ -110,7 +113,8 @@
+         # 4. Does it match the learned baseline? (alert only, never blocks) --
+         if self.baseline and v.authorized:
+             seen = self.baseline.get("sources", {}).get(src_ip, {}).get("signatures", [])
+-            sig = f"{frame.fc}:{frame.address}:{frame.quantity}"
++            sig = (f"90:sub{frame.subcode}" if frame.fc == 90
++                   else f"{frame.fc}:{frame.address}:{frame.quantity}")
+             if sig not in seen:
+                 v.escalate(ALERT, "BASELINE_DEVIATION", f"{sig} (fc:addr:qty) never seen from {src_ip} in baseline")
+         return v

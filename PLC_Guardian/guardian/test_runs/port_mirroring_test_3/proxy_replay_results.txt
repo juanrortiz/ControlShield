@@ -1,0 +1,11 @@
+  HMI      FC1 read %M2..%M5            -> forwarded, PLC answered OK  [real poll from capture]
+  HMI      FC90 sub 0x74 poll           -> EXCEPTION code 1  [real poll from capture]
+  HMI      FC3 read %MW0..%MW1          -> forwarded, PLC answered OK  [real poll from capture]
+  HMI      FC15 %M2=1 Start             -> forwarded, PLC answered OK
+  HMI      FC5 %M4=1 bypass ON          -> forwarded, PLC answered OK
+  HMI      FC6 %MW0=0 (read-only)       -> EXCEPTION code 1
+  HMI      FC90 sub 0x41 (STOP?)        -> EXCEPTION code 1
+  ATTACKER FC5 %M4=1 bypass ON          -> EXCEPTION code 1
+  ATTACKER FC5 %M2=1 Start              -> EXCEPTION code 1
+  ATTACKER FC6 %MW0=0 fake level        -> EXCEPTION code 1
+  ATTACKER FC1 read %M2..%M5            -> EXCEPTION code 1

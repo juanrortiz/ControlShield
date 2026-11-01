@@ -1,0 +1,116 @@
+{
+  "_comment": "PLC Guardian config. Edited live during the demo: the proxy re-reads this file when it changes. Values marked [UNVERIFIED] are placeholders until the PLC register map exists.",
+  "plc": {
+    "ip": "192.168.8.11",
+    "port": 502,
+    "unit_ids": [
+      1,
+      255
+    ]
+  },
+  "authorized_sources": {
+    "192.168.8.10": {
+      "name": "HMI (Pro-face)",
+      "mac": "00:00:54:0b:c5:9a",
+      "allow": [
+        "read",
+        "write"
+      ],
+      "fc90_read_subcodes": [
+        116
+      ]
+    },
+    "192.168.8.2": {
+      "name": "HMI (team laptop running updated HMI project, seen in Test1 2026-10-21)",
+      "mac": "00:e0:4c:1d:3d:70",
+      "allow": [
+        "read",
+        "write"
+      ],
+      "fc90_read_subcodes": [
+        116,
+        2
+      ]
+    },
+    "192.168.8.50": {
+      "name": "Engineering laptop",
+      "mac": "a0:ce:c8:62:e9:e1",
+      "allow": [
+        "read",
+        "write",
+        "config"
+      ]
+    }
+  },
+  "unknown_sources": {
+    "_comment": "Anything not in authorized_sources. allow_reads=false blocks even reads from unknown hosts.",
+    "allow_reads": false
+  },
+  "protected_points": [
+    {
+      "name": "%M2 Start",
+      "table": "coil",
+      "start": 2,
+      "end": 2,
+      "min": 0,
+      "max": 1,
+      "enabled": true
+    },
+    {
+      "name": "%M3 Stop",
+      "table": "coil",
+      "start": 3,
+      "end": 3,
+      "min": 0,
+      "max": 1,
+      "enabled": true
+    },
+    {
+      "name": "%M4 Maintenance bypass (ON defeats the level-80 stop)",
+      "table": "coil",
+      "start": 4,
+      "end": 4,
+      "min": 0,
+      "max": 0,
+      "enabled": true
+    },
+    {
+      "name": "%M5 Reset",
+      "table": "coil",
+      "start": 5,
+      "end": 5,
+      "min": 0,
+      "max": 1,
+      "enabled": true
+    },
+    {
+      "name": "%MW0 Tank level (= counter %C0.V, computed by the PLC)",
+      "table": "holding",
+      "start": 0,
+      "end": 0,
+      "read_only": true,
+      "enabled": true
+    }
+  ],
+  "enforcement": {
+    "_comment": "mode: 'monitor' = forward everything, detect + log only (demo Iteration 1). 'block' = drop unauthorized requests (Iteration 2). block_response: 'exception' (send Modbus exception) or 'reset' (close the TCP connection).",
+    "mode": "block",
+    "block_response": "exception",
+    "exception_code": 1,
+    "block_out_of_range_from_authorized": false,
+    "block_unexpected_unit_id": false
+  },
+  "proxy": {
+    "_comment": "Inline mode. Clients connect to listen_host:listen_port; allowed requests are forwarded to upstream (the real PLC). See README 'Inline topology'.",
+    "listen_host": "0.0.0.0",
+    "listen_port": 502,
+    "upstream_host": "192.168.8.11",
+    "upstream_port": 502,
+    "connect_timeout_s": 3
+  },
+  "log": {
+    "path": "logs/guardian_events.jsonl",
+    "log_allowed_reads": false
+  },
+  "_comment_map": "Register map from the 'Wireshark tank values PLC' chat / plc-guardian-open-items.md section 2. %MW1 meaning unknown, not protected yet."
+}

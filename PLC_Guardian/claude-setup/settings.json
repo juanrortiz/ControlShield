@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash .claude/skills/wireshark-analyze/scripts/ws.sh *)",
+      "Bash(bash .claude/skills/wireshark-open/scripts/open.sh *)"
+    ],
+    "ask": [
+      "Bash(bash .claude/skills/wireshark-capture/scripts/capture.sh *)"
+    ],
+    "deny": [
+      "Edit(**/*.pcapng)",
+      "Write(**/*.pcapng)",
+      "Edit(**/*.pcap)",
+      "Write(**/*.pcap)"
+    ]
+  }
+}

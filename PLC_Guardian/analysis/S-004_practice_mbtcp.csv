@@ -1,0 +1,3 @@
+frame.number,frame.time_relative,ip.src,tcp.srcport,ip.dst,tcp.dstport,mbtcp.trans_id,mbtcp.unit_id,modbus.func_code,modbus.request_frame,modbus.reference_num,modbus.word_cnt,modbus.bit_cnt,modbus.byte_cnt,modbus.exception_code,modbus.data
+"4","0.017180600","192.168.8.50","53099","192.168.8.11","502","1","1","3",,"0","10",,,,
+"5","0.019434800","192.168.8.11","502","192.168.8.50","53099","1","1","3","4",,,,"20",,
