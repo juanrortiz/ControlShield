@@ -24,7 +24,8 @@ ECE4311 · Network Forensics · Cal Poly Pomona · Term: [fill in] · Instructor
 ## In scope
 - Wireshark capture of HMI ↔ PLC traffic (Modbus TCP)
 - Baseline of normal traffic; identification of anomalies
-- [fill in: detection approach, e.g. rules, scripts, IDS]
+- Detection approach: PLC Guardian (D-002), a Python tool with rule-based policy detection (source allowlist, protected-point value/read-only rules, FC90 signature checks), a hash-chained evidence log, and inline blocking via a Modbus/TCP proxy (D-003) — monitor mode (Iteration 1) and block mode (Iteration 2)
+- Gray-box (Experiments 3–4, register map known) and black-box (Experiment 5, D-005, `tools/plc_blackbox.py`) attacker scenarios
 
 ## Out of scope
 - Anything outside the isolated lab network
@@ -35,4 +36,4 @@ ECE4311 · Network Forensics · Cal Poly Pomona · Term: [fill in] · Instructor
 
 ## Constraints
 - Lab hardware access: [when/where]
-- Tools allowed: Wireshark, [fill in]
+- Tools allowed: Wireshark (tshark/dumpcap/capinfos), Python 3 + pymodbus/scapy, nmap (Experiment 5 discovery), [fill in anything course-specific]

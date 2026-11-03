@@ -53,7 +53,7 @@ Points to make:
 | Engineering / test laptop | `192.168.8.50`, MAC `a0:ce:c8:62:e9:e1` | both captures |
 | Attacker (simulated) | `192.168.8.99`, MAC `00:e0:4c:1d:3d:70` (currently also the HMI-config laptop) | On the network, but only HMI web traffic so far (`Port_mirroring_test_3.pcapng`); [PENDING: attack capture, A-015] |
 | Guardian host | `192.168.8.12` planned; inline needs second NIC | [PENDING: A-004] |
-| Network | `192.168.8.0/24`, isolated lab network, managed switch [model TBD] | open-items doc |
+| Network | `192.168.8.0/24`, isolated lab network, TP-Link managed switch [model TBD], mgmt UI on separate `192.168.0.1` subnet | open-items doc; switch confirmed `06_REFERENCE` (S-006) |
 | Programming software | EcoStruxure Machine Expert – Basic (V1.4 release notes in project files [5]) | [VERIFY: version actually installed] |
 | Simulated process | Tank fill: Start `%M2`, Stop `%M3` at level 80, maintenance bypass `%M4` (defeats stop → overflow), Reset `%M5`, level `%MW0` = `%C0.V` | Map: open-items doc §2. Interlock confirmed on the wire: `Port_mirroring_test_3.pcapng` (level rises only while `%M4`=1) |
 | Tools | Wireshark [6], Python 3.10+/3.13, scapy 2.8.0 [7], pymodbus 3.16.1 (testing) | |
@@ -74,12 +74,14 @@ Source: `docs/GUARDIAN_DESIGN.md` (keep in sync). Points for the paper:
 ## V. Methodology (experiments)
 For each: setup, procedure, what is captured, success criterion, metrics. Record every capture in `06_REFERENCE` with SHA-256.
 
+**Renumbered S-006 (2026-11-02) — the table below supersedes the version used through S-005.** Older capture files (`Experiment3_capture.pcapng`, `Experiment_4.pcapng`) were taken under the *previous* numbering and keep the meaning already recorded for them in `06_REFERENCE.md`'s capture inventory — don't reinterpret them against the new Exp. 1–3 below. New captures for this table should get descriptive names (e.g. `exp1_nmap_portal_*`, not bare "Experiment1"), to avoid the same collision documented for `Experiment_4.pcapng`.
+
 | Exp. | Procedure | Guardian mode | Success criterion | Metrics to record |
 |---|---|---|---|---|
-| 1 Normal | Operators use HMI normally for N minutes; capture on mirror/inline | `baseline` | Profile of sources, FCs, addresses, polling interval | requests/s, FCs, signatures, # false alerts on a second normal capture |
-| 2 Authorized change | Operator changes setpoint via HMI (and engineering laptop) | `proxy` block | Logged `AUTHORIZED_CHANGE`, forwarded, `ACCEPTED_BY_PLC` | detection = 1/1, no block, added latency |
-| 3 Unauthorized change | Rogue host `.99` sends the same write directly | `proxy` monitor (iter. 1) then block (iter. 2) | Iter. 1: logged "would block", tank malfunctions; Iter. 2: `BLOCKED`, PLC value unchanged | detection rate, block rate, time to detect |
-| 4 Forensics | Mixed capture with authorized + unauthorized activity, analyzed blind | `forensics` | Report identifies attacker IP/MAC, timeline, which changes the PLC accepted | correct attribution, timeline accuracy vs. ground-truth notes |
+| 1 Recon + web-portal bypass | `.99` runs an nmap scan of the lab network (discovery), then exploits the HMI's TCP port 80 diagnostics portal (`POST /services/variable/hmi/1`, same path as R-004) to change a point without ever touching port 502 | `monitor` or `block` (irrelevant — Guardian only watches port 502) | Guardian evidence log shows **zero** requests from `.99` despite the change taking effect at the PLC — demonstrates the R-004 blind spot | nmap scan duration/ports found; HTTP request/response captured; Guardian request count for `.99` (expect 0); mirror both PLC port 2 and HMI port 3 so the HTTP leg is actually on the wire |
+| 2 Direct-Modbus bypass flip + overload | `.99` uses `tools/plc_lab_client.py`'s guarded `write-coil` mode to flip `%M4` (maintenance bypass) via FC5, driving the tank level past the overload threshold | `proxy` monitor (iter. 1) then block (iter. 2) | Guardian logs `UNAUTHORIZED_CHANGE`/BLOCK on the `%M4` write attributed to `.99`; separately, `%M6`/DIGI_OVERLOAD is observed asserting shortly after, showing the attack's real-world consequence, not just the write itself | detection rate on the `%M4` write; time from write to `%M6` assertion; PLC outcome (`ACCEPTED_BY_PLC` in monitor mode vs. blocked in iter. 2) |
+| 3 Inline IPS (NIPS) | Guardian wired inline (PLC physically behind it, 2nd NIC — **not yet built, A-004/A-019**) in block mode; `.99` repeats the Exp. 2 write while the HMI keeps polling normally | `proxy` block | Attacker's write never reaches the PLC (Modbus exception or dropped) while the HMI's own traffic is forwarded without disruption | block rate, added latency on the HMI's legitimate traffic, any false block of authorized requests |
+| 4 Forensics | Mixed capture with authorized + unauthorized activity (e.g. Exp. 2 run alongside normal HMI polling), analyzed blind | `forensics` | Report identifies attacker IP/MAC, timeline, which changes the PLC accepted | correct attribution, timeline accuracy vs. ground-truth notes. Already partially satisfied: `mixed_hmi_attacker_2026-11-02.pcapng` (A-020) |
 
 Ground truth: keep a written run sheet (who did what, wall-clock time) for every capture so results can be scored.
 Metrics to define formally in the paper: true/false positive rate per request; proxy added latency = response time via proxy − direct (measure with `latency_ms` and a direct baseline); log verification result.
