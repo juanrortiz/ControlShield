@@ -17,6 +17,7 @@ import argparse
 import asyncio
 import json
 import os
+import signal
 import sys
 import time
 
@@ -52,6 +53,18 @@ def _open_log(path, cfg, sensor, extra=None):
     return ev
 
 
+def _ignore_stop_signals():
+    """Stop reacting to SIGTERM/SIGBREAK/SIGINT. Used once shutdown is under way so a second
+    signal (including a second Ctrl+C) can't interrupt evidence_log.write() mid-fsync and
+    corrupt the hash chain. Callers must only invoke this AFTER the first SIGINT of a run has
+    already been through asyncio.run()'s own KeyboardInterrupt handling -- this function does
+    not distinguish "first" from "second", so calling it too early would suppress that first
+    Ctrl+C's normal behaviour too."""
+    for name in ("SIGTERM", "SIGBREAK", "SIGINT"):  # SIGBREAK exists on Windows only (Ctrl+Break)
+        if hasattr(signal, name):
+            signal.signal(getattr(signal, name), signal.SIG_IGN)
+
+
 def cmd_proxy(a, cfg):
     from plcguard.proxy import GuardianProxy
     if a.listen:
@@ -65,11 +78,51 @@ def cmd_proxy(a, cfg):
     ev = _open_log(a.log or cfg["log"]["path"], cfg, "proxy",
                    {"enforcement_mode": cfg["enforcement"]["mode"], "proxy": cfg["proxy"]})
     px = GuardianProxy(cfg, ev, _load_baseline(a.baseline))
+
+    async def _run():
+        # serve() runs as a Task (not awaited directly by asyncio.run) so the signal
+        # handler below has something it can cancel from outside the coroutine.
+        task = asyncio.ensure_future(px.serve())
+        loop = asyncio.get_running_loop()          # the loop asyncio.run() is driving right now
+
+        def _stop(signum, frame):
+            # Disarm first, before touching the loop: if this signal lands in the narrow
+            # window after asyncio.run()'s loop has started closing but before cmd_proxy's
+            # outer `finally` runs, loop.call_soon_threadsafe() below raises
+            # RuntimeError("Event loop is closed"). If that happened before we disarmed,
+            # the exception would escape the handler with the handler still installed and
+            # SESSION_END never written. Disarming first means a second signal is a no-op
+            # either way.
+            _ignore_stop_signals()                 # a second signal must not re-enter here
+            try:
+                # Never let this raise past us: a raised exception can land inside
+                # evidence_log.write() between the fsync and the self.seq/self.prev update
+                # and corrupt the hash chain. call_soon_threadsafe() just schedules the
+                # cancellation on the loop (safe to call from a signal handler, even though
+                # it fires on the same thread as the loop) and lets serve()'s own await
+                # raise CancelledError at a clean point.
+                loop.call_soon_threadsafe(task.cancel)
+            except RuntimeError:
+                pass                                # loop already closed/closing; cmd_proxy's finally still runs
+        for name in ("SIGTERM", "SIGBREAK"):
+            if hasattr(signal, name):
+                signal.signal(getattr(signal, name), _stop)
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
+
     try:
-        asyncio.run(px.serve())
-    except KeyboardInterrupt:
-        pass
+        asyncio.run(_run())
+    except KeyboardInterrupt:                      # first Ctrl+C: asyncio.run()'s own Runner already
+        pass                                       # cancelled the main task before raising this; just unwind
     finally:
+        # First statement of the outer finally, before anything else: disarm SIGTERM/SIGBREAK
+        # *and now SIGINT* so a second Ctrl+C (or one landing mid-write right here) can't
+        # interrupt evidence_log.write() and corrupt the hash chain. This only ever runs after
+        # the FIRST Ctrl+C has already gone through the normal KeyboardInterrupt path above (or
+        # after a SIGTERM/SIGBREAK shutdown), so it never suppresses that first one.
+        _ignore_stop_signals()
         ev.write({"record": "SESSION_END", "ts_utc": utc_iso(time.time()), "ts_source": "host_clock",
                   "sensor": "proxy", "stats": px.stats})
         ev.close()

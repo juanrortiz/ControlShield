@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Stray backups
+*.bak
+*.bak-*
+
+# Scratch/temp (never part of evidence)
+*.tmp
+
+# Unused stray artifact from an abandoned test approach (A-023); still held open
+# by an orphan python.exe process (PID 24256) the sandbox won't let us kill — see
+# 02_NEXT_STEPS.md. Not referenced by any check script.
+guardian/test_runs/a023/proxy_double_sigint.jsonl
