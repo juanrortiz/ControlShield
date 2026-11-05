@@ -369,14 +369,11 @@
 % was not built to handle multiple paragraphs
 %
 
-\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,}
-        John~Doe,~\IEEEmembership{Fellow,~OSA,}
-        and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
-\thanks{M. Shell was with the Department
-of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta,
-GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this % stops a space
-\thanks{J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
-\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
+\author{Juan~Ortiz,~(MSEE),
+        Rushi~Sharma,~(MSEE),
+        David~Jessup,~(BSECE),
+        and~Harrison~Hsu~(BSECE)
+\thanks{The authors are students at California Polytechnic Pomona and are not IEEE members.}}
 
 % note the % following the last \IEEEmembership and also \thanks -
 % these prevent an unwanted space from occurring between the last author name
@@ -399,8 +396,8 @@ GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this %
 
 
 % The paper headers
-\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2015}%
-{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for IEEE Journals}
+\markboth{ECE 4311.01 --- Network Forensics, Fall 2026 Final Project}%
+{ControlShield: Network Security and Forensics for Industrial Control Systems}
 % The only time the second header will appear is for the odd numbered pages
 % after the title page when using the twoside option.
 %
@@ -432,12 +429,16 @@ GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this %
 % As a general rule, do not put math, special symbols or citations
 % in the abstract or keywords.
 \begin{abstract}
-The abstract goes here.
+Industrial Control Systems (ICS) are critical components of modern automated infrastructure, encompassing sectors such as logistics, manufacturing, energy and utilities. Security and forensics on Programmable Logic Controllers (PLC) are paramount due to the potential consequences of cyber threats and vulnerabilities. This project presents ControlShield, an Industrial PLC Guardian that provides integrated intrusion detection and prevention capabilities to safeguard ICS environments.
+\\ \hspace*{1em}The experiments conduct greybox analysis on a simulated ICS network with a TM212CE24T PLC, HMIS5T HMI and a managed TP-Link TL-SG105E switch. The PLC Guardian is a Windows based python application that monitors the network for malicious activity and provides real-time alerts and mitigation actions. The design theory is a fully integrated PLC IPS that communcates directly with the PLC to prevent malicious activity.
+\\ \hspace*{1em}The results demonstrated the effectiveness of ControlShield in near real-time detection using port mirroring and packet analysis. The PLC Guardian successfully identified and mitigated various attack scenarios, including exploitation of exposed services such as diagnostics web portal and Modbus TCP attacks. There is also experiments conducted to blackbox footprinting and reconnaissance attacks for system discovery.
+\\ \hspace*{1em}In conclusion, ControlShield provides a comprehensive solution for enhancing the security and resilience of Industrial Control Systems.
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-IEEE, IEEEtran, journal, \LaTeX, paper, template.
+Industrial control systems, programmable logic controllers, network security,
+intrusion detection and prevention, network forensics, cybersecurity.
 \end{IEEEkeywords}
 
 
@@ -484,14 +485,36 @@ I wish you the best of success.
 
 \hfill August 26, 2015
 
-\subsection{Subsection Heading Here}
+\subsection{System Design}
 Subsection text here.
 
 % needed in second column of first page if using \IEEEpubid
 %\IEEEpubidadjcol
 
-\subsubsection{Subsubsection Heading Here}
+\subsubsection{ICS Network Architecture}
 Subsubsection text here.
+
+\subsubsection{PLC Guardian Design}
+Subsubsection text here.
+
+\subsection{Experiments and Results}
+Subsection text here.
+
+% needed in second column of first page if using \IEEEpubid
+%\IEEEpubidadjcol
+
+\subsubsection{Baseline Network Traffic Analysis}
+Subsubsection text here.
+
+\subsubsection{Exposed Services Exploitation}
+Subsubsection text here.
+
+\subsubsection{Modbus TCP Attack}
+Subsubsection text here.
+
+\subsubsection{Intrusion Prevention and Mitigation}
+Subsubsection text here.
+
 
 
 % An example of a floating figure using the graphicx package.
@@ -624,7 +647,7 @@ Appendix two text goes here.
 
 
 % use section* for acknowledgment
-\section*{Acknowledgment}
+% \section*{Acknowledgment}
 
 
 The authors would like to thank...

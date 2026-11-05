@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.9.22)  14 OCT 2026 04:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.27)  5 NOV 2026 10:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/juanrortiz/Code/ECE4311-Network-Forensics/LaTex/main.tex
-(/home/juanrortiz/Code/ECE4311-Network-Forensics/LaTex/main.tex
+**/home/juanrortiz/Code/ControlShield/LaTex/main.tex
+(/home/juanrortiz/Code/ControlShield/LaTex/main.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
 (/usr/share/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
@@ -127,15 +127,13 @@ LaTeX Font Info:    ... okay on input line 352.
 
 -- Lines per column: 58 (exact).
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 440.
+(Font)              <7> on input line 478.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 440.
+(Font)              <5> on input line 478.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 440.
+(Font)              <8> on input line 689.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 477.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 666.
+(Font)              <6> on input line 689.
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
@@ -146,15 +144,15 @@ L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 1302 strings out of 469515
- 25690 string characters out of 5470807
- 441756 words of memory out of 5000000
- 30002 multiletter control sequences out of 15000+600000
- 670813 words of font info for 109 fonts, out of 8000000 for 9000
+ 1291 strings out of 469515
+ 25553 string characters out of 5470806
+ 445756 words of memory out of 5000000
+ 29997 multiletter control sequences out of 15000+600000
+ 666061 words of font info for 102 fonts, out of 8000000 for 9000
  17 hyphenation exceptions out of 8191
- 36i,8n,55p,253b,239s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 36i,8n,55p,539b,239s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (1 page, 55409 bytes).
+Output written on main.pdf (1 page, 61381 bytes).
 PDF statistics:
  29 PDF objects out of 1000 (max. 8388607)
  17 compressed objects within 1 object stream
