@@ -90,6 +90,14 @@
       "end": 0,
       "read_only": true,
       "enabled": true
+    },
+    {
+      "name": "%M6 DIGI_OVERLOAD (computed status, mirrors %Q0.2; added S-006 2026-11-02)",
+      "table": "coil",
+      "start": 6,
+      "end": 6,
+      "read_only": true,
+      "enabled": true
     }
   ],
   "enforcement": {

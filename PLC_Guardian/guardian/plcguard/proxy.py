@@ -37,6 +37,7 @@ class GuardianProxy:
         self.policy = Policy(config, baseline)
         self.console = console
         self.stats = {"connections": 0, "requests": 0, "forwarded": 0, "blocked": 0, "alerts": 0}
+        self._client_writers: set[asyncio.StreamWriter] = set()   # tracked so shutdown can close them without waiting
 
     # ------------------------------------------------------------------ helpers
     @property
@@ -70,6 +71,7 @@ class GuardianProxy:
         if src_ip.startswith("::ffff:"):
             src_ip = src_ip[7:]
         self.stats["connections"] += 1
+        self._client_writers.add(c_writer)
         up_host = self.pcfg.get("upstream_host", self.config.plc_ip)
         up_port = int(self.pcfg.get("upstream_port", self.config.plc_port))
         u_reader = u_writer = None
@@ -172,6 +174,7 @@ class GuardianProxy:
         except (ConnectionError, OSError):
             pass
         finally:
+            self._client_writers.discard(c_writer)
             for w in (u_writer, c_writer):
                 if w is not None:
                     try:
@@ -192,5 +195,20 @@ class GuardianProxy:
                      f"mode={self.config['enforcement']['mode']} | log={self.evlog.path}")
         if ready:
             ready.set()
-        async with server:
-            await server.serve_forever()
+        try:
+            # Wait here until cmd_proxy's signal handler cancels the Task running this
+            # coroutine (see guardian.py's _stop). Deliberately NOT `async with server:
+            # await server.serve_forever()` / `await server.wait_closed()`: on Python
+            # 3.12.1+, Server.wait_closed() (which `async with server`'s __aexit__ also
+            # calls) blocks until every *client* connection closes too, not just the
+            # listening socket -- with the HMI still connected that can hang shutdown
+            # indefinitely. We close the listening socket and every tracked client
+            # connection ourselves below and return without waiting for either.
+            await asyncio.Future()
+        finally:
+            server.close()                              # stop accepting new connections; don't await wait_closed()
+            for w in list(self._client_writers):
+                try:
+                    w.close()
+                except Exception:
+                    pass

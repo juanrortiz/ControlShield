@@ -16,6 +16,17 @@ def _who(ip, cfg):
     return f"{ip} ({s['name']})" if s else f"{ip} (NOT AUTHORIZED)"
 
 
+_EV_CAT = {"NORMAL_READ": "read", "UNAUTHORIZED_READ": "read",
+           "AUTHORIZED_CHANGE": "write", "UNAUTHORIZED_CHANGE": "write",
+           "AUTHORIZED_CONFIG_CHANGE": "config", "UNAUTHORIZED_CONFIG_CHANGE": "config"}
+
+
+def _cat(r):
+    """Effective category. The record keeps the raw frame category (FC 90 = config); policy may
+    reclassify a per-source fc90_read_subcodes poll as a read, which only shows in event_type."""
+    return _EV_CAT.get(r["event_type"], r["category"])
+
+
 def _row(*cells):
     return "| " + " | ".join(str(c).replace("|", "/") for c in cells) + " |"
 
@@ -72,7 +83,7 @@ def build_report(analyzer, cfg, pcap_path: str, log_path: str | None, log_head: 
     L.append(_row("---", "---", "---", "---", "---"))
     cats = defaultdict(Counter)
     for r in reqs:
-        cats[r["src_ip"]][r["category"]] += 1
+        cats[r["src_ip"]][_cat(r)] += 1
     for ip, h in sorted(analyzer.hosts.items()):
         s = cfg.sources.get(ip)
         ident = s["name"] if s else ("PLC" if ip == cfg.plc_ip else ("UNKNOWN" if ip in cats else "-"))
@@ -90,17 +101,31 @@ def build_report(analyzer, cfg, pcap_path: str, log_path: str | None, log_head: 
         L.append("No unauthorized sources.\n")
     for ip in unauth_src:
         rs = [r for r in reqs if r["src_ip"] == ip and not r["authorized"]]
-        changes = [r for r in rs if r["category"] in ("write", "config")]
+        changes = [r for r in rs if _cat(r) in ("write", "config")]
         accepted = [r for r in changes if str(r.get("_outcome", "")).startswith("ACCEPTED")]
         L.append(f"### {_who(ip, cfg)}\n")
         L.append(f"- MAC: {', '.join(sorted(analyzer.hosts.get(ip, {}).get('macs', []))) or 'unknown'}")
         L.append(f"- Active: {rs[0]['ts_utc']} -> {rs[-1]['ts_utc']} (frames {rs[0].get('frame_no')}-{rs[-1].get('frame_no')})")
-        L.append(f"- Requests: {len(rs)} ({dict(Counter(r['category'] for r in rs))}); rules fired: "
+        L.append(f"- Requests: {len(rs)} ({dict(Counter(_cat(r) for r in rs))}); rules fired: "
                  f"{dict(Counter(x for r in rs for x in r['rules']))}")
         L.append(f"- Attempted changes: {len(changes)}; **accepted by the PLC: {len(accepted)}**"
                  + (" (no PLC response seen for some)" if any('_outcome' not in r for r in changes) else ""))
         for r in changes:
             L.append(f"  - frame {r.get('frame_no')} {r['ts_utc']}: {r['summary']} -> {r.get('_outcome', 'no response captured')}")
+        L.append("")
+
+    # ---- authorized sources whose request was still ALERT/BLOCK (e.g. protected point)
+    auth_flagged = [r for r in reqs if r["authorized"] and r["decision"] in ("ALERT", "BLOCK")]
+    if auth_flagged:
+        L.append("### Authorized-source requests with decision ALERT/BLOCK\n")
+        L.append("These came from an authorized source but the policy returned ALERT or BLOCK "
+                 "(rules and details below). BLOCK is the policy verdict; in a pcap analysis nothing was actually dropped.\n")
+        L.append(_row("Time (UTC)", "Frame", "Source", "Action", "Decision", "Rules", "Details", "PLC outcome"))
+        L.append(_row("---", "---", "---", "---", "---", "---", "---", "---"))
+        for r in auth_flagged:
+            L.append(_row(r["ts_utc"], r.get("frame_no"), _who(r["src_ip"], cfg), r["summary"], r["decision"],
+                          ", ".join(r["rules"]), "; ".join(r.get("details") or []) or "-",
+                          r.get("_outcome", "-")))
         L.append("")
 
     # ---- timeline
@@ -127,7 +152,7 @@ def build_report(analyzer, cfg, pcap_path: str, log_path: str | None, log_head: 
     L.append("")
 
     # ---- authorized changes
-    auth_changes = [r for r in reqs if r["authorized"] and r["category"] in ("write", "config")]
+    auth_changes = [r for r in reqs if r["authorized"] and _cat(r) in ("write", "config")]
     L.append("## 6. Authorized changes\n")
     if not auth_changes:
         L.append("None.\n")
