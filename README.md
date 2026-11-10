@@ -75,8 +75,9 @@ not part of the normal-operation baseline.
 **Goal:** Identify exposed TCP services on the PLC and HMI and evaluate Guardian's
 response to scanning from the attacker workstation.
 
-Use the four documented scan variants, recording the exact command, source
-interface/address, privileges, timing, and targets for each trial.
+Use one TCP connect scan of ports `80,443,502,44818,8080` on both the HMI and
+PLC, recording the exact command, source interface/address, timing, and targets
+for each trial.
 See [EXP_1 run instructions](EXP_1/README.md).
 
 **Evidence:** Nmap output, associated PCAP, UTC timeline, and Guardian alerts.
@@ -229,7 +230,7 @@ See [Guardian's README](PLC_Guardian/guardian/README.md) for its own setup and u
 | Test | Success criterion |
 |---|---|
 | Baseline prerequisite | Authorized Start/Reset cycle completes with no intrusion alerts |
-| EXP_1 | Nmap scan results and associated traffic/Guardian response are recorded per scan variant |
+| EXP_1 | Combined HMI/PLC scan results and associated traffic/Guardian response are recorded |
 | EXP_2 | Bypass write is captured and classified; process effects and restoration are corroborated |
 | EXP_3 | Discovery pipeline output, limitations/failures, and Guardian response are recorded reproducibly |
 | EXP_4 | Unauthorized requests are blocked by a verified enforcement point while authorized control continues |
