@@ -25,16 +25,25 @@
       "mac": "00:e0:4c:1d:3d:70",
       "allow": [
         "read",
-        "write"
+        "write",
+        "config"
       ],
       "fc90_read_subcodes": [
         116,
-        2
+        2,
+        36,
+        4,
+        18,
+        40,
+        114,
+        3,
+        109,
+        41
       ]
     },
     "192.168.8.50": {
       "name": "Engineering laptop",
-      "mac": "a0:ce:c8:62:e9:e1",
+      "mac": "00:e0:4c:68:00:f4",
       "allow": [
         "read",
         "write",
@@ -98,6 +107,15 @@
       "end": 6,
       "read_only": true,
       "enabled": true
+    },
+    {
+      "name": "%M7 PLCGUARD (D-007 active-response lockout coil; allowed value is 1 while a lockout is in force -- an authorized host writing it back to 0 clears the lockout and must ALERT, not log as a plain AUTHORIZED_CHANGE; added A-030 2026-11-04)",
+      "table": "coil",
+      "start": 7,
+      "end": 7,
+      "min": 1,
+      "max": 1,
+      "enabled": true
     }
   ],
   "enforcement": {
@@ -116,9 +134,34 @@
     "upstream_port": 502,
     "connect_timeout_s": 3
   },
+  "http_gate": {
+    "_comment": "D-008: connection-level inline gate in front of the HMI's web API (partial mitigation for RAID R-004 -- see guardian/plcguard/httpgate.py's module docstring for exactly what it does and doesn't cover). Run with 'guardian.py httpgate'; reuses authorized_sources as a per-source-IP allow/deny with no HTTP parsing. Same A-004-style inline-topology dependency as 'proxy' above, not yet built for this leg -- point a test client straight at listen_port to exercise it until then.",
+    "listen_host": "0.0.0.0",
+    "listen_port": 80,
+    "upstream_host": "192.168.8.10",
+    "upstream_port": 80,
+    "connect_timeout_s": 3
+  },
+  "http_watch": {
+    "_comment": "D-009: passive HTTP-connection trigger for the D-007 lockout, for deployments where Guardian sees the HMI's web traffic on a mirror port but is NOT inline on that segment (no httpgate.py in the path) -- see guardian/plcguard/http_watch.py's module docstring. Off by default; enabling it adds a second trigger source feeding the SAME ActiveResponder instance cmd_monitor already builds for Modbus (shared cooldown), it does not change any Modbus-side behaviour. Enabled 2026-11-09: needs the switch to also mirror the HMI's port (X-003) and a monitor restart to take effect -- cmd_monitor reads this flag once at startup, it is not hot-reloaded the way http_gate.py's config is.",
+    "enabled": true,
+    "hmi_ip": "192.168.8.10",
+    "hmi_port": 80
+  },
   "log": {
     "path": "logs/guardian_events.jsonl",
     "log_allowed_reads": false
+  },
+  "active_response": {
+    "_comment": "D-007 reactive PLC-side interlock, monitor mode only. A-027/A-028/A-030 done (S-006): coil 7 = %M7/PLCGUARD, confirmed live over Modbus; active_response.py reviewed PASS (round 2). Re-ENABLED 2026-11-04 after I-009 (first live test false-fired on .2's unlisted FC90 sub-codes; .2's fc90_read_subcodes now complete, re-verified against PM3 + two real captures with zero false positives, A-032). own_ip confirmed as 192.168.8.50. trigger_decisions lists the policy decisions (see policy.py) that fire it; cooldown_seconds limits how often Guardian will re-fire during a burst of attacker traffic. unit 255 matches every other confirmed-working read/write in this project (06_REFERENCE); the PLC also answers unit 1 but 255 is what's actually been exercised.",
+    "enabled": true,
+    "lockout_coil": 7,
+    "trigger_decisions": [
+      "BLOCK"
+    ],
+    "cooldown_seconds": 5,
+    "unit": 255,
+    "timeout_s": 2
   },
   "_comment_map": "Register map from the 'Wireshark tank values PLC' chat / plc-guardian-open-items.md section 2. %MW1 meaning unknown, not protected yet."
 }

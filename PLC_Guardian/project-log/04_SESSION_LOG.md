@@ -47,6 +47,24 @@ _Append-only. Newest at the bottom. ≤ 8 lines per entry._
 - **Next:** closed A-011/A-013/A-015/A-017; opened A-019 (verify proxy BLOCK on laptop — Iteration 2), A-020 (true mixed Exp-4 capture), A-021 (attacker own adapter/MAC)
 - **Notes:** `[REPORTED]` not re-verified here: proxy BLOCK *action* (passed S-003; cloud env blocks listening sockets). Two different captures both named `Experiment_4.pcapng` — rename one.
 
+### S-006 · 2026-11-02 to 2026-11-04 · Signal hardening, new PLC points, D-007 reactive interlock
+- **Goal:** Fix Guardian signal-handling bugs, confirm new PLC points, stand up agent tooling, pursue a working form of blocking (inline deferred, reactive interlock pursued), test against real hardware
+- **Done:** Ported .claude agents/skills from Senior Design; A-016/A-023/A-025 signal-handling fixes (3 architect rounds, I-006 resolved); found+fixed a ~40min switch port-mirror outage (I-007); confirmed `%M6`/DIGI_OVERLOAD and `%M7`/PLCGUARD live on the PLC; built D-007's active-response module (A-028/A-030, 2 architect rounds); pushed project to GitHub (private repo + PR to the team's shared repo)
+- **Verified:** PM3 regression 150/150 ALLOW held through every code change; Experiment 2 (`%M4` flip → `%M6` assert, 8.6s) captured on real hardware; `exp3_no_inline_baseline` confirms mirroring can't block; `exp3_active_response_success` confirms D-007 does — attacker BLOCKed, lockout fires in ~6ms, tank level held flat despite `%M4` staying ON
+- **Decisions:** D-005 (black-box Exp 5), D-006 (renumbered Exp 1-4 table), D-007 (reactive interlock now, true inline deferred)
+- **RAID:** I-006 resolved; I-007 resolved (switch outage); I-008 resolved (active-response architect FAIL → fixed); I-009 resolved (two live false-lockout incidents on `.2`'s FC90 traffic, fixed by granting `.2` config permission)
+- **Next:** A-019/A-004 (inline topology, deferred), A-026 (locate missing Exp 3/4 files), A-031 (active-response hardening residuals), A-021 (attacker adapter)
+- **Notes:** Session ends with `active_response.enabled: true` in `guardian/config.json` (left on after the successful live test) and `guardian.py monitor` (PID 17600, log `guardian/logs/live_attacker_test_2026-11-04_v2.jsonl`) still running in the background — neither was changed or stopped before compacting; next session should check both before doing anything else
+
+### S-007 · 2026-11-09 to 2026-11-10 · D-008 HTTP gate, D-009 HTTP-watch, live-fire confirmation
+- **Goal:** Build a mitigation for R-004 (HMI web-API bypass), validate live, continue black-box testing (A-022)
+- **Done:** D-008 `httpgate.py` (3 architect rounds: FAIL/FAIL/PASS); coordinated with a parallel Claude session building D-009 `http_watch.py` (their own architect PASS, no file collisions); fixed a recurring switch mirror outage (I-010); ran Experiment 5 black-box discovery against the real PLC; pushed everything to GitHub (`MetalStarfish24/plc-guardian`, `8d10ecc`)
+- **Verified:** `http_watch` → `active_response` fired live 3×, cross-correlated to the microsecond against 2 new captures (`Port 80 IPS.pcapng`); black-box tool confirmed read-only (0 writes from `.99` across 1682 reads, `Black Box Test.pcapng`); cooldown validated under sustained load (5 fires, 1677 correctly suppressed); PM3 regression 150/150 ALLOW held throughout every change
+- **Decisions:** D-008, D-009 (both closed this session)
+- **RAID:** I-010 opened+resolved (switch mirror config loss, 2nd occurrence of I-007); X-003 (peer, switch needs to also mirror the HMI's port); R-004 updated with both partial mitigations
+- **Next:** A-022, A-034 closed; A-033/A-035/A-036/A-037 open
+- **Notes:** A-033 (inline topology for the gate) confirmed still needed — `.99` bypassed the gate by hitting the HMI directly during live testing, exactly as A-033 predicted; the gate itself works correctly once traffic is actually pointed at it. `guardian.py monitor` (log `guardian/logs/live_attacker_test_2026-11-04_v2.jsonl`) and `guardian.py httpgate` (PID 10208) both left running; check before next session. `http_watch.enabled=true` left on in `config.json`. Three new captures not yet in `captures/` — blocked by the `.pcapng` deny rule for Claude, tracked as A-037
+
 <!-- Template
 ### S-### · YYYY-MM-DD · <topic>
 - **Goal:**

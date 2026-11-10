@@ -95,9 +95,9 @@ Metrics to define formally in the paper: true/false positive rate per request; p
 - [CONFIRMED] Proxy block-mode replay (loopback + mock PLC): unfixed v0.1 blocks the HMI's real FC 90 poll and lets an HMI write to `%MW0` through; with fixes + map-based protected points, the HMI poll and Start are forwarded, bypass ON from the HMI raises an ALERT, and all attacker writes and `%MW0` writes are BLOCKED.
 - [SYNTHETIC, not lab evidence] Exp. 4 rehearsal on real capture + 6 injected scenarios (TTL 99): 6/6 classified correctly (authorized Start, HMI bypass alert, 3 attacker writes, IP spoof via MAC mismatch, FC 90 STOP, write to read-only level). Report the method only, or replace with a real mixed capture (A-015).
 - [CONFIRMED] Forensic soundness bug found and fixed in test: classic `.pcap` input produced "no unauthorized activity" (silent false negative, I-003). Worth one sentence on validating tools against known-answer inputs.
-- [PENDING] Exp. 1 baseline table (**Table II**).
-- [PENDING] Exp. 2 log excerpt (**Fig./Listing**).
-- [PENDING] Exp. 3 iteration 1 vs. 2 comparison (**Table III**: commands sent / reached PLC / blocked / process outcome).
+- [PENDING] Baseline capture table (**Table II**) — this is A-006/A-014's normal-traffic baseline; it has no number under the renumbered Exp. 1–4 scheme (§V, S-006/D-006), unlike before when it was "Exp. 1."
+- [PENDING] Exp. 2 log excerpt (**Fig./Listing**) — under the new numbering this is the `%M4` flip / `%M6` overload chain; see `exp2_m4_flip_m6_overload_2026-11-02.pcapng`.
+- [PENDING] Exp. 3 iteration 1 vs. 2 comparison (**Table III**: commands sent / reached PLC / blocked / process outcome) — under the new numbering this is the inline-IPS test (A-019), not yet run.
 - [PENDING] Exp. 4 forensic timeline excerpt (**Table IV**) and attribution accuracy.
 - [PENDING] Performance: latency overhead, throughput.
 
