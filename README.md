@@ -16,7 +16,7 @@ The simulated process is a **water storage tank**. During normal operation, an o
 - Detect suspicious access and unauthorized changes to the maintenance-bypass state.
 - Record timestamps, source/destination addresses, protocol activity, alerts, and PCAP evidence.
 - Evaluate prevention controls and reconstruct the sequence of events from forensic evidence.
-- Compare guided **grey-box** testing with a future **black-box** assessment.
+- Compare guided **grey-box** testing with automated discovery and behavioral inference.
 
 ## Hardware and network topology
 
@@ -56,45 +56,62 @@ The PLC maintains a simulated tank level and pump state. The HMI provides the op
 | `maint_bypass` enabled | Demonstration logic bypasses the normal 80% stop condition |
 | Simulated level exceeds 100% | An **overload** alarm/event is recorded; no physical overflow occurs |
 
-**Implementation note:** Define and document the actual PLC variable addresses, HMI tags, reset behavior, simulation update rate, and any independent safety limits in `PLC/`. The network-visible representation of `maint_bypass` must be verified from the deployed PLC/HMI configuration; Modbus TCP does not inherently provide a named-tag listing interface.
+**Implementation note:** Define and document the actual PLC variable addresses, HMI tags, reset behavior, simulation update rate, and any independent safety limits alongside the project files in `ICS/`. The network-visible representation of `maint_bypass` must be verified from the deployed PLC/HMI configuration; Modbus TCP does not inherently provide a named-tag listing interface.
 
 ## Experiments
 
-### EXP_1 — Normal operation and baseline
+The current attacker-side numbering is **EXP_1: Nmap reconnaissance**,
+**EXP_2: maintenance-bypass write**, and **EXP_3: PLC discovery and fingerprinting**.
+Older Guardian runsheets, captures, and analysis may use earlier experiment
+numbers; retain their original names and identify the scenario explicitly when
+citing historical evidence.
 
-**Goal:** Characterize authorized operation without raising intrusion alerts.
+Before each attack trial, capture normal HMI Start/Stop-at-80%/Reset operation
+as a separate baseline and verify the initial bypass state. Reconnaissance is
+not part of the normal-operation baseline.
 
-1. Start a packet capture on PLC Guardian.
-2. Use the HMI to start the virtual water tank filling process.
-3. Observe the PLC stop filling at **80%**.
-4. Reset the process using the HMI.
-5. Record the expected IPs, ports, protocols, communication patterns, and process events.
-6. Confirm that Guardian reports **no intrusion** for this authorized sequence.
+### EXP_1 — Network reconnaissance with Nmap
 
-**Evidence:** Baseline PCAP, operator action timeline, PLC state log, and Guardian results.
+**Goal:** Identify exposed TCP services on the PLC and HMI and evaluate Guardian's
+response to scanning from the attacker workstation.
 
-### EXP_2 — Guided discovery and maintenance-bypass scenarios
+Use one TCP connect scan of ports `80,443,502,44818,8080` on both the HMI and
+PLC, recording the exact command, source interface/address, timing, and targets
+for each trial.
+See [EXP_1 run instructions](EXP_1/README.md).
 
-**Goal:** Evaluate detection of unauthorized reconnaissance and attempted changes to the lab-only maintenance bypass.
+**Evidence:** Nmap output, associated PCAP, UTC timeline, and Guardian alerts.
 
-Two controlled entry paths are evaluated:
+### EXP_2 — Maintenance-bypass write
 
-- **HTTP diagnostic portal:** From the authorized test workstation, assess the exposed HMI diagnostic service on TCP **80**. Record service discovery, access attempts, and whether the deliberately configured lab interface permits a maintenance-bypass change.
-- **Modbus TCP:** Assess the PLC's TCP **502** service and evaluate an authorized, lab-scoped test of access to the documented maintenance-bypass register. Correlate any attempted state change with Guardian alerts and the simulated tank behavior.
+**Goal:** Evaluate detection of a direct Modbus TCP write to the lab-only
+maintenance bypass, and corroborate any resulting simulated process effect.
 
-The attacker has limited prior knowledge of the environment (grey-box). Service discovery can be performed with Nmap within the isolated lab. Any Modbus register mapping must come from the test configuration or a separately documented discovery mechanism; a generic Modbus script cannot automatically enumerate arbitrary PLC tag names.
+The supplied lab client writes coil address `4` (`%M4`) to `1` on
+`192.168.8.11:502`. Verify the deployed mapping and initial state, capture the
+trial, observe the process, and restore bypass OFF afterward.
+See [EXP_2 code and run instructions](EXP_2/README.md).
 
-**Expected observation:** If the vulnerable lab configuration accepts the unauthorized bypass change, the simulated tank may exceed the 80% threshold and trigger the overload event above 100%. Guardian should capture the relevant traffic and flag the unauthorized activity. Keep physical outputs isolated.
+**Expected observation:** If the vulnerable lab configuration accepts the write
+and the simulated fill cycle is active, the level may pass the normal 80% stop
+and trigger overload above 100%. Confirm this in PLC/HMI observations.
 
-**Evidence:** Discovery results, relevant PCAP, bypass state transition, tank-level timeline, and alerts.
+**Evidence:** Client JSONL log, write response/readback, PCAP, bypass and tank-level
+timeline, restoration observations, and Guardian alerts.
 
-### EXP_3 — Automated attack-chain simulation
+### EXP_3 — PLC discovery and fingerprinting
 
-**Goal:** Assess whether Guardian detects a repeatable automated sequence of discovery, unauthorized bypass-change attempt, and simulated process impact.
+**Goal:** Assess automated service discovery, device identification, address-space
+enumeration, and behavioral inference against the known PLC target.
 
-A lab test harness performs the same approved sequence used in EXP_2, with clear start/end timestamps and no attempts outside the isolated test subnet. Record each stage separately: service discovery, control-change attempt, resulting process state, and Guardian detection.
+`plc_discovery.py` (supplied as `plc_blackbox_test.py`) probes the PLC's ICS ports,
+requests Modbus device identification, reads coils/registers, and infers candidate
+signal behavior. It does not perform the EXP_2 bypass write. Supplying a known
+target IP makes this a partial black-box assessment.
+See [EXP_3 code and run instructions](EXP_3/README.md).
 
-**Evidence:** Test-harness logs, PCAP, Guardian alert timeline, and simulated overload result. Automation should be repeatable and rate-limited to avoid destabilizing the PLC or HMI.
+**Evidence:** Console report, enumerated addresses, inference candidates,
+unsupported/failed responses, PCAP, and Guardian alert timeline.
 
 ### EXP_4 — Intrusion detection and prevention
 
@@ -111,7 +128,11 @@ A lab test harness performs the same approved sequence used in EXP_2, with clear
 
 ## Grey-box and black-box testing
 
-The primary assessment is **grey-box**: the test operator knows basic information about the environment but must discover exposed services and validate the attack surface. A **stretch goal** is a black-box assessment in which the operator receives no device addresses, service information, or register mappings in advance. Both modes remain restricted to the explicitly authorized, isolated lab environment.
+EXP_2 is **grey-box**: the operator knows the target and bypass mapping. EXP_3
+infers exposed address behavior without receiving a register map, but still
+receives the target IP and protocol port. A full black-box assessment with no
+device addresses or register mappings provided remains a stretch goal. All
+modes remain restricted to the explicitly authorized, isolated lab environment.
 
 ## PLC Guardian design
 
@@ -150,20 +171,44 @@ The IDS should not infer a successful PLC state change from a network connection
 ## Repository layout
 
 ```text
-ControlShield-Intrusion-Detection-and-Prevention-System/
-├── ControlShield/          # Guardian IDS/NIPS application and configuration
-├── docs/
-│   └── ECE4311 - Group 7 Project Proposal.pdf
-├── EXP_1/                  # Normal-operation baseline and captures
-├── EXP_2/                  # HTTP/Modbus discovery and bypass tests
-├── EXP_3/                  # Automated lab attack-chain tests
+ControlShield/
+├── EXP_1/                  # Nmap reconnaissance
+│   ├── README.md           # Setup, commands, evidence instructions
+│   └── results/            # One UTC-named directory per run
+├── EXP_2/                  # Maintenance-bypass write
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── scripts/plc_lab_client.py
+│   └── results/
+├── EXP_3/                  # PLC discovery and fingerprinting
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── scripts/plc_discovery.py
+│   └── results/
 ├── EXP_4/                  # Detection and prevention validation
+├── ICS/                    # PLC program, HMI project, exported configuration
+├── PLC_Guardian/           # Guardian application, analysis, historical evidence
 ├── LaTex/                  # Technical report source and build outputs
-├── PLC/                    # PLC program, HMI configuration, tag map
+├── docs/                   # Proposal and supporting documents
 └── README.md
 ```
 
-Recommended per-experiment artifacts include a short procedure, capture files, timestamps, test results, and screenshots or exported logs. Avoid committing passwords, credentials, or sensitive device configurations. Large PCAPs and generated LaTeX build artifacts may be better excluded from Git and referenced through documented storage locations.
+Keep `EXP_1`, `EXP_2`, and `EXP_3` as stable folder names; use descriptive README
+titles and script names to explain each scenario. For a new project, equivalent
+names could be `exp_01_network_reconnaissance`, `exp_02_maintenance_bypass`, and
+`exp_03_plc_discovery`. Retaining the existing paths avoids disrupting references.
+
+Each run uses `results/YYYYMMDDTHHMMSSZ/` (UTC). Put commands, UTC start/end times,
+source/target addresses, software versions, initial/final PLC state, Guardian
+configuration, observations, and evidence paths in a `notes.md` there. Store
+captures/logs alongside it or link to central evidence under `PLC_Guardian/`.
+Record baseline, detection, and prevention runs distinctly; an alert is not proof
+of enforcement. Review generated evidence before committing it. Large PCAPs may
+be stored externally with a documented path and checksum.
+
+The experiment scripts are standalone snapshots of the supplied attacker tools.
+Guardian's existing `tools/` files and historical evidence remain in place;
+changes to one copy do not automatically update another.
 
 ## Tools
 
@@ -177,15 +222,17 @@ Recommended per-experiment artifacts include a short procedure, capture files, t
 | Git | Version control and experiment documentation |
 | LaTeX | Final technical report |
 
-The exact HMI software, Python dependencies, and Guardian startup commands will be added after the implementation is committed.
+Python dependencies and attacker commands are documented per experiment.
+See [Guardian's README](PLC_Guardian/guardian/README.md) for its own setup and use.
 
 ## Evaluation criteria
 
 | Test | Success criterion |
 |---|---|
-| EXP_1 | Authorized Start/Reset cycle completes with no intrusion alerts |
-| EXP_2 | Discovery and bypass attempts are captured and classified; process effects are corroborated |
-| EXP_3 | Automated sequence produces a reproducible, timestamped forensic trail |
+| Baseline prerequisite | Authorized Start/Reset cycle completes with no intrusion alerts |
+| EXP_1 | Combined HMI/PLC scan results and associated traffic/Guardian response are recorded |
+| EXP_2 | Bypass write is captured and classified; process effects and restoration are corroborated |
+| EXP_3 | Discovery pipeline output, limitations/failures, and Guardian response are recorded reproducibly |
 | EXP_4 | Unauthorized requests are blocked by a verified enforcement point while authorized control continues |
 
 Additional measurements: detection latency, false positives, false negatives, packet-capture completeness, and prevention reliability.
@@ -204,7 +251,7 @@ In accordance with the project proposal:
 - [x] TP-Link TL-SG105E managed switch selected.
 - [ ] Verify mirror configuration and bidirectional capture on port 5.
 - [ ] Commit PLC/HMI simulation code and a documented tag/register map.
-- [ ] Capture and analyze EXP_1 baseline.
+- [ ] Capture and analyze normal-operation baseline and EXP_1 reconnaissance.
 - [ ] Implement Guardian detection rules and forensic logging.
 - [ ] Validate EXP_2 and EXP_3 in the isolated simulation.
 - [ ] Select and verify an EXP_4 enforcement mechanism.
