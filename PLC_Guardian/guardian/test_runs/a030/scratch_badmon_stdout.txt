@@ -1,0 +1,2 @@
+active_response config is invalid -- active response stays OFF: active_response config is invalid: cooldown_seconds must be a number >= 1, got 0
+Sniffing tcp port 15051 on \Device\NPF_Loopback (passive: detect + log, no blocking). Ctrl+C to stop.

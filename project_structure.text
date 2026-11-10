@@ -1,648 +1,279 @@
-- .directory
-- EXP_1
-  - .directory
-- EXP_2
-  - .directory
-- EXP_3
-  - .directory
-- EXP_4
-  - .directory
-- ICS
-  - .directory
-  - ECE4311_Cybersecurity.vdz
-  - ECE4311_PLC.smbp
-  - HMI
-    - CPP.png
-    - CPP_logo.png
-    - TANK.jpg
-    - Tank.png
-  - USB
-    - AGP.SYS
-    - BSP.OSC
-    - FDATA
-      - SYSFONTTBL.BIN
-      - SYSTEMFONT.BIN
-    - LDML.SYS
-    - MAIN.SYS
-    - PUBLIC
-      - BIN
-        - BASE.BIN
-        - MESSAGES
-          - MESSGIDX.DAT
-      - DRIVERS
-        - DSSERVER.DLM
-        - MODBUS.DLM
-        - MODBUSPLC.DLM
-      - PORT.DAT
-      - PROJECTS
-        - CONFIGURATIONMENU
-          - APP.BIN
-          - CLASSLIST.TXT
-          - COMX.KDF
-          - CONFIG-0.CLA
-          - CONFIGTEXT.TXT
-          - NAMHASH-.LST
-          - NAMLIST-.LST
-          - PROJECT.CFG
-          - TAGLIST.TXT
-        - ECE4311_HMI
-          - APP.BIN
-          - BITMAP2.I
-          - COMX.KDF
-          - DATA
-            - PROJECT
-              - ECE4311_CYBERSECURITY.VDZ
-              - PROJINFO.CFG
-          - INFO.CFG
-          - PROJECT.CFG
-          - SRAMCONTROL.CFG
-          - VARIABLE.CFG
-        - IMAGES
-          - IMGIDXSS.DAT
-        - SYS.CFG
-        - WELCOME
-          - APP.BIN
-          - CLASSLIST.TXT
-          - COMX.KDF
-          - EXITIMAGE.I
-          - P1IMAGE3P1IMAGE1NETWORK.I
-          - PROJECT.CFG
-          - STOIMAGENETWORK.I
-          - TAGLIST.TXT
-      - WEBGATE
-        - ERRORS
-          - E401.HTM
-          - E404.HTM
-          - E404HT-0.DE
-          - E404HT-1.ES
-          - E404HT-2.FR
-          - E404HT-3.IT
-          - E404HT-4.ZH
-          - E405.HTM
-          - NAMHASH-.LST
-          - NAMLIST-.LST
-        - SYSTEM
-          - APPLET-0.PNG
-          - FAVICON.ICO
-          - HTML
-            - CHINESE_SIMPLIFIED
-              - CONTROL
-                - INDEX.HTM
-                - MENU.HTM
-              - DIAGNOSTIC
-                - INDEX.HTM
-                - MENU.HTM
-              - DOCUMENTATION
-                - INDEX.HTM
-                - MENU.HTM
-              - HEADER.HTM
-              - HOME
-                - HOME.HTM
-                - INDEX.HTM
-                - MENU.HTM
-              - HTTPE404.HTM
-              - INDEX.HTM
-              - MAINTENANCE
-                - INDEX.HTM
-                - MENU.HTM
-              - MONITORING
-                - INDEX.HTM
-                - INSTALL.HTM
-                - MENU.HTM
-              - SETUP
-                - INDEX.HTM
-                - MENU.HTM
-            - CHINESE_TRADITIONAL
-              - CONTROL
-                - INDEX.HTM
-                - MENU.HTM
-              - DIAGNOSTIC
-                - INDEX.HTM
-                - MENU.HTM
-              - DOCUMENTATION
-                - INDEX.HTM
-                - MENU.HTM
-              - HEADER.HTM
-              - HOME
-                - HOME.HTM
-                - INDEX.HTM
-                - MENU.HTM
-              - HTTPE404.HTM
-              - INDEX.HTM
-              - MAINTENANCE
-                - INDEX.HTM
-                - MENU.HTM
-              - MONITORING
-                - INDEX.HTM
-                - INSTALL.HTM
-                - MENU.HTM
-              - SETUP
-                - INDEX.HTM
-                - MENU.HTM
-            - CONFIG.JS
-            - ENGLISH
-              - CONTROL
-                - INDEX.HTM
-                - MENU.HTM
-              - DIAGNOSTIC
-                - INDEX.HTM
-                - MENU.HTM
-              - DOCUMENTATION
-                - INDEX.HTM
-                - MENU.HTM
-              - HEADER.HTM
-              - HOME
-                - HOME.HTM
-                - INDEX.HTM
-                - MENU.HTM
-              - HTTPE404.HTM
-              - INDEX.HTM
-              - MAINTENANCE
-                - INDEX.HTM
-                - MENU.HTM
-              - MONITORING
-                - INDEX.HTM
-                - INSTALL.HTM
-                - MENU.HTM
-              - SETUP
-                - INDEX.HTM
-                - MENU.HTM
-            - FRENCH
-              - CONTROL
-                - INDEX.HTM
-                - MENU.HTM
-              - DIAGNOSTIC
-                - INDEX.HTM
-                - MENU.HTM
-              - DOCUMENTATION
-                - INDEX.HTM
-                - MENU.HTM
-              - HEADER.HTM
-              - HOME
-                - HOME.HTM
-                - INDEX.HTM
-                - MENU.HTM
-              - HTTPE404.HTM
-              - INDEX.HTM
-              - MAINTENANCE
-                - INDEX.HTM
-                - MENU.HTM
-              - MONITORING
-                - INDEX.HTM
-                - INSTALL.HTM
-                - MENU.HTM
-              - SETUP
-                - INDEX.HTM
-                - MENU.HTM
-            - GERMAN
-              - CONTROL
-                - INDEX.HTM
-                - MENU.HTM
-              - DIAGNOSTIC
-                - INDEX.HTM
-                - MENU.HTM
-              - DOCUMENTATION
-                - INDEX.HTM
-                - MENU.HTM
-              - HEADER.HTM
-              - HOME
-                - HOME.HTM
-                - INDEX.HTM
-                - MENU.HTM
-              - HTTPE404.HTM
-              - INDEX.HTM
-              - MAINTENANCE
-                - INDEX.HTM
-                - MENU.HTM
-              - MONITORING
-                - INDEX.HTM
-                - INSTALL.HTM
-                - MENU.HTM
-              - SETUP
-                - INDEX.HTM
-                - MENU.HTM
-            - IMAGES
-              - AGP.JPG
-              - SCHNEIDERLOGO.GIF
-            - ITALIAN
-              - CONTROL
-                - INDEX.HTM
-                - MENU.HTM
-              - DIAGNOSTIC
-                - INDEX.HTM
-                - MENU.HTM
-              - DOCUMENTATION
-                - INDEX.HTM
-                - MENU.HTM
-              - HEADER.HTM
-              - HOME
-                - HOME.HTM
-                - INDEX.HTM
-                - MENU.HTM
-              - HTTPE404.HTM
-              - INDEX.HTM
-              - MAINTENANCE
-                - INDEX.HTM
-                - MENU.HTM
-              - MONITORING
-                - INDEX.HTM
-                - INSTALL.HTM
-                - MENU.HTM
-              - SETUP
-                - INDEX.HTM
-                - MENU.HTM
-            - JAPAN
-              - CONTROL
-                - INDEX.HTM
-                - MENU.HTM
-              - DIAGNOSTIC
-                - INDEX.HTM
-                - MENU.HTM
-              - DOCUMENTATION
-                - INDEX.HTM
-                - MENU.HTM
-              - HEADER.HTM
-              - HOME
-                - HOME.HTM
-                - INDEX.HTM
-                - MENU.HTM
-              - HTTPE404.HTM
-              - INDEX.HTM
-              - MAINTENANCE
-                - INDEX.HTM
-                - MENU.HTM
-              - MONITORING
-                - INDEX.HTM
-                - INSTALL.HTM
-                - MENU.HTM
-              - SETUP
-                - INDEX.HTM
-                - MENU.HTM
-            - LIB
-              - CSS
-                - DIR.CSS
-                - HEADER.CSS
-                - MAIN.CSS
-                - MENU.CSS
-                - STATIC.CSS
-              - IMAGES
-                - HOME.GIF
-                - LEFT.GIF
-                - MOINS.GIF
-                - PLUS.GIF
-                - RIGHT.GIF
-              - JS
-                - HEADER.JS
-                - HOME.JS
-                - INDEX.JS
-                - MENU.JS
-                - TOOLS.JS
-            - PORTUGUESE
-              - CONTROL
-                - INDEX.HTM
-                - MENU.HTM
-              - DIAGNOSTIC
-                - INDEX.HTM
-                - MENU.HTM
-              - DOCUMENTATION
-                - INDEX.HTM
-                - MENU.HTM
-              - HEADER.HTM
-              - HOME
-                - HOME.HTM
-                - INDEX.HTM
-                - MENU.HTM
-              - HTTPE404.HTM
-              - INDEX.HTM
-              - MAINTENANCE
-                - INDEX.HTM
-                - MENU.HTM
-              - MONITORING
-                - INDEX.HTM
-                - INSTALL.HTM
-                - MENU.HTM
-              - SETUP
-                - INDEX.HTM
-                - MENU.HTM
-            - SPANISH
-              - CONTROL
-                - INDEX.HTM
-                - MENU.HTM
-              - DIAGNOSTIC
-                - INDEX.HTM
-                - MENU.HTM
-              - DOCUMENTATION
-                - INDEX.HTM
-                - MENU.HTM
-              - HEADER.HTM
-              - HOME
-                - HOME.HTM
-                - INDEX.HTM
-                - MENU.HTM
-              - HTTPE404.HTM
-              - INDEX.HTM
-              - MAINTENANCE
-                - INDEX.HTM
-                - MENU.HTM
-              - MONITORING
-                - INDEX.HTM
-                - INSTALL.HTM
-                - MENU.HTM
-              - SETUP
-                - INDEX.HTM
-                - MENU.HTM
-          - IMAGES
-            - CLOSE.PNG
-            - ERRORACKICON.PNG
-            - ERRORCLEARICON.PNG
-            - ERRORICON.PNG
-            - FILE.PNG
-            - FOLDER.PNG
-            - LOGIN.PNG
-            - LOGININITIAL.PNG
-            - LOGINRETURN.PNG
-            - MOVEWINDOW.PNG
-            - PARENT.PNG
-            - RCPARLOCKEDICON.PNG
-            - RCPARUNLOCKEDICON.PNG
-            - RCPCOMPAREBTNIMG.PNG
-            - RCPDELETEBTNIMG.PNG
-            - RCPRECIPEGROUPICON.PNG
-            - RCPRECIPEICON.PNG
-            - RCPSAVEBTNIMG.PNG
-            - RCPSENDBTNIMG.PNG
-            - RCPSNAPSHOTBTNIMG.PNG
-          - INDEX.HTM
-          - NAMHASH-.LST
-          - NAMLIST-.LST
-          - SOUNDS
-            - CLICK.WAV
-          - VARS
-            - ALL.HTM
-            - FLEXIGRID.CSS
-            - FLEXIGRID.JS
-            - IMAGES
-              - ADD.PNG
-              - ADDGR.PNG
-              - BADQUALITY.GIF
-              - BG.GIF
-              - BTNSPR-0.GIF
-              - CHECKBOX.PNG
-              - DELETE.PNG
-              - DELETEGR.PNG
-              - FHBG.GIF
-              - FIND.GIF
-              - FIRST.GIF
-              - HL.PNG
-              - LAST.GIF
-              - LINE.GIF
-              - LOAD.PNG
-              - LOCK.GIF
-              - MAGNIFIER.PNG
-              - NAMHASH-.LST
-              - NAMLIST-.LST
-              - NEXT.GIF
-              - PREV.GIF
-              - STOP.PNG
-              - UNCHECK.PNG
-              - WBG.GIF
-              - XFIND.GIF
-            - JQMODAL.JS
-            - JQUERY-0.JS
-            - JQUERY-1.JS
-            - MYMODAL.CSS
-            - NAMHASH-.LST
-            - NAMLIST-.LST
-            - STRING-0.DE
-            - STRING-1.ES
-            - STRING-2.FR
-            - STRING-3.IT
-            - STRING-4.PO
-            - STRING-5.TW
-            - STRING-6.ZH
-            - STRINGS.JS
-          - VIJEORUNTIMEBINARIES.VER
-        - TEMPLATE
-          - ETHERN-0.DE
-          - ETHERN-1.ES
-          - ETHERN-2.FR
-          - ETHERN-3.IT
-          - ETHERN-4.PO
-          - ETHERN-5.TW
-          - ETHERN-6.ZH
-          - ETHERNET.HTM
-          - MEMORY-0.DE
-          - MEMORY-1.ES
-          - MEMORY-2.FR
-          - MEMORY-3.IT
-          - MEMORY-4.PO
-          - MEMORY-5.TW
-          - MEMORY-6.ZH
-          - MEMORY.HTM
-          - NAMHASH-.LST
-          - NAMLIST-.LST
-          - PROJEC-0.DE
-          - PROJEC-1.ES
-          - PROJEC-2.FR
-          - PROJEC-3.IT
-          - PROJEC-4.PO
-          - PROJEC-5.TW
-          - PROJEC-6.ZH
-          - PROJECT.HTM
-          - WEBGAT-0.DE
-          - WEBGAT-1.ES
-          - WEBGAT-2.FR
-          - WEBGAT-3.IT
-          - WEBGAT-4.PO
-          - WEBGAT-5.TW
-          - WEBGAT-6.ZH
-          - WEBGATE.HTM
-    - SPLASH.JPG
-    - STUP.SYS
-    - VERSION.SYS
-  - USB_10222026.zip
-  - USB_11032026.zip
-- LaTex
-  - Project.code-workspace
-  - main.aux
-  - main.fdb_latexmk
-  - main.fls
-  - main.log
-  - main.pdf
-  - main.synctex.gz
-  - main.tex
-- PLC_Guardian
-  - .claude
-    - agents
-      - architect.md
-      - builder.md
-      - project-manager.md
-      - scout.md
-      - verifier.md
-      - work-finder.md
-    - settings.json
-    - skills
-      - autopilot
-        - SKILL.md
-      - decision-record
-        - SKILL.md
-      - maker-checker
-        - SKILL.md
-      - session-close
-        - SKILL.md
-      - session-start
-        - SKILL.md
-      - status-report
-        - SKILL.md
-      - wireshark-analyze
-        - SKILL.md
-        - reference.md
-        - scripts
-          - ws.sh
-          - wstools.sh
-      - wireshark-capture
-        - SKILL.md
-        - scripts
-          - capture.sh
-      - wireshark-open
-        - SKILL.md
-        - scripts
-          - open.sh
-          - open_wireshark.ps1
-  - .gitignore
-  - CLAUDE.md
-  - analysis
-    - S-004_modbus_census.md
-    - S-004_pm3_mbtcp.csv
-    - S-004_practice_mbtcp.csv
-    - exp2_m4_flip_m6_overload_2026-11-02_forensic_report.md
-    - exp3_attackB_forensic_report.md
-    - exp4_mixed_hmi_attacker_2026-11-02_forensic_report.md
-  - captures
-    - 2026-10-21_exp1_baseline_runsheet.md
-    - 2026-10-21_exp2_authorized_write_runsheet.md
-    - 2026-10-21_exp3_attacker_runsheet.md
-    - 2026-10-21_mirror_check_99.pcapng
-    - 2026-11-02_174454_hmi_q02_overload_flag.pcapng
-    - 2026-11-02_174454_hmi_q02_overload_flag.pcapng.sha256
-    - 2026-11-02_174737_hmi_q02_overload_flag.pcapng
-    - 2026-11-02_174737_hmi_q02_overload_flag.pcapng.sha256
-    - 2026-11-02_175533_hmi_q02_overload_flag.pcapng
-    - 2026-11-02_175533_hmi_q02_overload_flag.pcapng.sha256
-    - Port_Mirroring_Baseline.pcapng
-    - Port_mirroring_test_2.pcapng
-    - exp2_m4_flip_m6_overload_2026-11-02.pcapng
-    - hmi_q02_overload_flag_runsheet.md
-    - mixed_hmi_attacker_2026-11-02.pcapng
-    - q0.2_m6_overload_confirm_2026-11-02.pcapng
-  - claude-setup
-    - install.ps1
-    - settings.json
-    - skills
-      - decision-record
-        - SKILL.md
-      - session-close
-        - SKILL.md
-      - session-start
-        - SKILL.md
-      - status-report
-        - SKILL.md
-      - wireshark-analyze
-        - SKILL.md
-        - reference.md
-        - scripts
-          - ws.sh
-          - wstools.sh
-      - wireshark-capture
-        - SKILL.md
-        - scripts
-          - capture.sh
-      - wireshark-open
-        - SKILL.md
-        - scripts
-          - open.sh
-          - open_wireshark.ps1
-  - docs
-    - GUARDIAN_DESIGN.md
-  - guardian
-    - README.md
-    - baseline_port_mirroring.json
-    - baseline_practice.json
-    - config.json
-    - guardian.py
-    - plcguard
-      - __init__.py
-      - analyzer.py
-      - baseline.py
-      - config.py
-      - events.py
-      - evidence_log.py
-      - forensics.py
-      - modbus.py
-      - policy.py
-      - proxy.py
-    - reports
-      - practice
-        - events.csv
-        - events.jsonl
-        - report.md
-    - test_runs
-      - a016
-        - double_sigterm_check.py
-        - mixed_fixed
-          - events.csv
-          - events.jsonl
-          - report.md
-        - mixed_mapped
-          - events.csv
-          - events.jsonl
-          - report.md
-        - pm3_fixed.jsonl
-        - pm3_mapped.jsonl
-        - proxy_double_sigterm.jsonl
-        - proxy_sigterm.jsonl
-        - sigterm_check.py
-      - a023
-        - double_sigint_check.py
-        - hang_check.py
-        - pm3_regression.jsonl
-        - proxy_double_sigint_check.jsonl
-        - proxy_hang.jsonl
-      - port_mirroring_test_3
-        - Port_mirroring_test_3.pcapng
-        - README.md
-        - baseline_pm3.json
-        - config_fixed.json
-        - config_mapped.json
-        - forensics_mixed_events.jsonl
-        - forensics_report_mixed.md
-        - make_mixed_pcap.py
-        - mixed_pm3_synthetic.pcap
-        - pm3_mapped.jsonl
-        - pm3_regression_events.jsonl
-        - proposed_fixes.patch
-        - proxy_final.jsonl
-        - proxy_replay.py
-        - proxy_replay_results.txt
-        - proxy_shipped.jsonl
-    - tools
-      - mock_plc.py
-      - modbus_client.py
-  - modbus_capture_practice.pcapng
-  - project-log
-    - 00_PROJECT_BRIEF.md
-    - 01_STATUS.md
-    - 02_NEXT_STEPS.md
-    - 03_DECISIONS.md
-    - 04_SESSION_LOG.md
-    - 05_RAID_LOG.md
-    - 06_REFERENCE.md
-    - 07_REPORT_NOTES.md
-  - test_connection.pcapng
-  - tools
-    - plc_blackbox.py
-    - plc_lab_client.py
-- README.md
-- docs
-  - ControlShield_PLC.pdf
-  - ECE4311 - Group 7 Project Proposal.pdf
+# ControlShield repository layout
+# Regenerated 2026-11-10 (S-007). ICS/ (PLC program + HMI project exports,
+# Vijeo Designer/EcoStruxure runtime binaries) is omitted here for size —
+# see that folder directly; it is not reorganized by this listing.
+
+EXP_1
+EXP_1/README.md
+EXP_1/results
+EXP_1/results/.gitkeep
+EXP_2
+EXP_2/.gitignore
+EXP_2/README.md
+EXP_2/requirements.txt
+EXP_2/results
+EXP_2/results/.gitkeep
+EXP_2/scripts
+EXP_2/scripts/plc_lab_client.py
+EXP_3
+EXP_3/.gitignore
+EXP_3/README.md
+EXP_3/requirements.txt
+EXP_3/results
+EXP_3/results/.gitkeep
+EXP_3/scripts
+EXP_3/scripts/plc_discovery.py
+EXP_4
+EXP_4/README.md
+LaTex
+LaTex/Project.code-workspace
+LaTex/main.aux
+LaTex/main.fdb_latexmk
+LaTex/main.fls
+LaTex/main.log
+LaTex/main.pdf
+LaTex/main.synctex.gz
+LaTex/main.tex
+PLC_Guardian
+PLC_Guardian/.claude
+PLC_Guardian/.claude/agents
+PLC_Guardian/.claude/agents/architect.md
+PLC_Guardian/.claude/agents/builder.md
+PLC_Guardian/.claude/agents/project-manager.md
+PLC_Guardian/.claude/agents/scout.md
+PLC_Guardian/.claude/agents/verifier.md
+PLC_Guardian/.claude/agents/work-finder.md
+PLC_Guardian/.claude/settings.json
+PLC_Guardian/.claude/skills
+PLC_Guardian/.claude/skills/autopilot
+PLC_Guardian/.claude/skills/autopilot/SKILL.md
+PLC_Guardian/.claude/skills/decision-record
+PLC_Guardian/.claude/skills/decision-record/SKILL.md
+PLC_Guardian/.claude/skills/maker-checker
+PLC_Guardian/.claude/skills/maker-checker/SKILL.md
+PLC_Guardian/.claude/skills/session-close
+PLC_Guardian/.claude/skills/session-close/SKILL.md
+PLC_Guardian/.claude/skills/session-start
+PLC_Guardian/.claude/skills/session-start/SKILL.md
+PLC_Guardian/.claude/skills/status-report
+PLC_Guardian/.claude/skills/status-report/SKILL.md
+PLC_Guardian/.claude/skills/wireshark-analyze
+PLC_Guardian/.claude/skills/wireshark-analyze/SKILL.md
+PLC_Guardian/.claude/skills/wireshark-analyze/reference.md
+PLC_Guardian/.claude/skills/wireshark-analyze/scripts
+PLC_Guardian/.claude/skills/wireshark-analyze/scripts/ws.sh
+PLC_Guardian/.claude/skills/wireshark-analyze/scripts/wstools.sh
+PLC_Guardian/.claude/skills/wireshark-capture
+PLC_Guardian/.claude/skills/wireshark-capture/SKILL.md
+PLC_Guardian/.claude/skills/wireshark-capture/scripts
+PLC_Guardian/.claude/skills/wireshark-capture/scripts/capture.sh
+PLC_Guardian/.claude/skills/wireshark-open
+PLC_Guardian/.claude/skills/wireshark-open/SKILL.md
+PLC_Guardian/.claude/skills/wireshark-open/scripts
+PLC_Guardian/.claude/skills/wireshark-open/scripts/open.sh
+PLC_Guardian/.claude/skills/wireshark-open/scripts/open_wireshark.ps1
+PLC_Guardian/.gitignore
+PLC_Guardian/CLAUDE.md
+PLC_Guardian/analysis
+PLC_Guardian/analysis/S-004_modbus_census.md
+PLC_Guardian/analysis/S-004_pm3_mbtcp.csv
+PLC_Guardian/analysis/S-004_practice_mbtcp.csv
+PLC_Guardian/analysis/S-007_blackbox_discovery_live_test.md
+PLC_Guardian/analysis/S-007_port80_ips_live_test.md
+PLC_Guardian/analysis/exp2_m4_flip_m6_overload_2026-11-02_forensic_report.md
+PLC_Guardian/analysis/exp3_active_response_success_2026-11-04_forensic_report.md
+PLC_Guardian/analysis/exp3_attackB_forensic_report.md
+PLC_Guardian/analysis/exp3_no_inline_baseline_2026-11-04_forensic_report.md
+PLC_Guardian/analysis/exp4_mixed_hmi_attacker_2026-11-02_forensic_report.md
+PLC_Guardian/captures
+PLC_Guardian/captures/2026-10-21_mirror_check_99.pcapng
+PLC_Guardian/captures/2026-11-02_174454_hmi_q02_overload_flag.pcapng
+PLC_Guardian/captures/2026-11-02_174737_hmi_q02_overload_flag.pcapng
+PLC_Guardian/captures/2026-11-02_175533_hmi_q02_overload_flag.pcapng
+PLC_Guardian/captures/Port_Mirroring_Baseline.pcapng
+PLC_Guardian/captures/Port_mirroring_test_2.pcapng
+PLC_Guardian/captures/exp2_m4_flip_m6_overload_2026-11-02.pcapng
+PLC_Guardian/captures/mixed_hmi_attacker_2026-11-02.pcapng
+PLC_Guardian/captures/q0.2_m6_overload_confirm_2026-11-02.pcapng
+PLC_Guardian/claude-setup
+PLC_Guardian/claude-setup/install.ps1
+PLC_Guardian/claude-setup/settings.json
+PLC_Guardian/claude-setup/skills
+PLC_Guardian/claude-setup/skills/decision-record
+PLC_Guardian/claude-setup/skills/decision-record/SKILL.md
+PLC_Guardian/claude-setup/skills/session-close
+PLC_Guardian/claude-setup/skills/session-close/SKILL.md
+PLC_Guardian/claude-setup/skills/session-start
+PLC_Guardian/claude-setup/skills/session-start/SKILL.md
+PLC_Guardian/claude-setup/skills/status-report
+PLC_Guardian/claude-setup/skills/status-report/SKILL.md
+PLC_Guardian/claude-setup/skills/wireshark-analyze
+PLC_Guardian/claude-setup/skills/wireshark-analyze/SKILL.md
+PLC_Guardian/claude-setup/skills/wireshark-analyze/reference.md
+PLC_Guardian/claude-setup/skills/wireshark-analyze/scripts
+PLC_Guardian/claude-setup/skills/wireshark-analyze/scripts/ws.sh
+PLC_Guardian/claude-setup/skills/wireshark-analyze/scripts/wstools.sh
+PLC_Guardian/claude-setup/skills/wireshark-capture
+PLC_Guardian/claude-setup/skills/wireshark-capture/SKILL.md
+PLC_Guardian/claude-setup/skills/wireshark-capture/scripts
+PLC_Guardian/claude-setup/skills/wireshark-capture/scripts/capture.sh
+PLC_Guardian/claude-setup/skills/wireshark-open
+PLC_Guardian/claude-setup/skills/wireshark-open/SKILL.md
+PLC_Guardian/claude-setup/skills/wireshark-open/scripts
+PLC_Guardian/claude-setup/skills/wireshark-open/scripts/open.sh
+PLC_Guardian/claude-setup/skills/wireshark-open/scripts/open_wireshark.ps1
+PLC_Guardian/docs
+PLC_Guardian/docs/GUARDIAN_DESIGN.md
+PLC_Guardian/guardian
+PLC_Guardian/guardian/README.md
+PLC_Guardian/guardian/baseline_port_mirroring.json
+PLC_Guardian/guardian/baseline_practice.json
+PLC_Guardian/guardian/config.json
+PLC_Guardian/guardian/guardian.py
+PLC_Guardian/guardian/plcguard
+PLC_Guardian/guardian/plcguard/__init__.py
+PLC_Guardian/guardian/plcguard/active_response.py
+PLC_Guardian/guardian/plcguard/analyzer.py
+PLC_Guardian/guardian/plcguard/baseline.py
+PLC_Guardian/guardian/plcguard/config.py
+PLC_Guardian/guardian/plcguard/events.py
+PLC_Guardian/guardian/plcguard/evidence_log.py
+PLC_Guardian/guardian/plcguard/forensics.py
+PLC_Guardian/guardian/plcguard/http_watch.py
+PLC_Guardian/guardian/plcguard/httpgate.py
+PLC_Guardian/guardian/plcguard/modbus.py
+PLC_Guardian/guardian/plcguard/policy.py
+PLC_Guardian/guardian/plcguard/proxy.py
+PLC_Guardian/guardian/reports
+PLC_Guardian/guardian/reports/practice
+PLC_Guardian/guardian/reports/practice/events.csv
+PLC_Guardian/guardian/reports/practice/events.jsonl
+PLC_Guardian/guardian/reports/practice/report.md
+PLC_Guardian/guardian/test_runs
+PLC_Guardian/guardian/test_runs/a016
+PLC_Guardian/guardian/test_runs/a016/double_sigterm_check.py
+PLC_Guardian/guardian/test_runs/a016/mixed_fixed
+PLC_Guardian/guardian/test_runs/a016/mixed_fixed/events.csv
+PLC_Guardian/guardian/test_runs/a016/mixed_fixed/events.jsonl
+PLC_Guardian/guardian/test_runs/a016/mixed_fixed/report.md
+PLC_Guardian/guardian/test_runs/a016/mixed_mapped
+PLC_Guardian/guardian/test_runs/a016/mixed_mapped/events.csv
+PLC_Guardian/guardian/test_runs/a016/mixed_mapped/events.jsonl
+PLC_Guardian/guardian/test_runs/a016/mixed_mapped/report.md
+PLC_Guardian/guardian/test_runs/a016/pm3_fixed.jsonl
+PLC_Guardian/guardian/test_runs/a016/pm3_mapped.jsonl
+PLC_Guardian/guardian/test_runs/a016/proxy_double_sigterm.jsonl
+PLC_Guardian/guardian/test_runs/a016/proxy_sigterm.jsonl
+PLC_Guardian/guardian/test_runs/a016/sigterm_check.py
+PLC_Guardian/guardian/test_runs/a023
+PLC_Guardian/guardian/test_runs/a023/double_sigint_check.py
+PLC_Guardian/guardian/test_runs/a023/hang_check.py
+PLC_Guardian/guardian/test_runs/a023/pm3_regression.jsonl
+PLC_Guardian/guardian/test_runs/a023/proxy_hang.jsonl
+PLC_Guardian/guardian/test_runs/a025
+PLC_Guardian/guardian/test_runs/a025/double_sigint_under_load_check.py
+PLC_Guardian/guardian/test_runs/a025/proxy_double_sigint_load_0.jsonl
+PLC_Guardian/guardian/test_runs/a025/proxy_double_sigint_load_1.jsonl
+PLC_Guardian/guardian/test_runs/a025/proxy_double_sigint_load_2.jsonl
+PLC_Guardian/guardian/test_runs/a025/proxy_double_sigint_load_3.jsonl
+PLC_Guardian/guardian/test_runs/a025/proxy_double_sigint_load_4.jsonl
+PLC_Guardian/guardian/test_runs/a028
+PLC_Guardian/guardian/test_runs/a028/active_response_unit_check.py
+PLC_Guardian/guardian/test_runs/a028/live_check_config.json
+PLC_Guardian/guardian/test_runs/a028/live_check_events.jsonl
+PLC_Guardian/guardian/test_runs/a028/live_check_monitor_stdout.txt
+PLC_Guardian/guardian/test_runs/a028/live_monitor_integration_check.py
+PLC_Guardian/guardian/test_runs/a028/pm3_myverify.jsonl
+PLC_Guardian/guardian/test_runs/a028/unit_check_config.json
+PLC_Guardian/guardian/test_runs/a028/unit_check_config_disabled.json
+PLC_Guardian/guardian/test_runs/a028/unit_check_config_unreachable.json
+PLC_Guardian/guardian/test_runs/a028/unit_check_events.jsonl
+PLC_Guardian/guardian/test_runs/a028/unit_check_events_disabled.jsonl
+PLC_Guardian/guardian/test_runs/a028/unit_check_events_unreachable.jsonl
+PLC_Guardian/guardian/test_runs/a030
+PLC_Guardian/guardian/test_runs/a030/i008_fixes_check.py
+PLC_Guardian/guardian/test_runs/a030/pm3_myverify.jsonl
+PLC_Guardian/guardian/test_runs/a030/scratch_bad_reply_config.json
+PLC_Guardian/guardian/test_runs/a030/scratch_bad_reply_events.jsonl
+PLC_Guardian/guardian/test_runs/a030/scratch_badmon_config.json
+PLC_Guardian/guardian/test_runs/a030/scratch_badmon_events.jsonl
+PLC_Guardian/guardian/test_runs/a030/scratch_badmon_stdout.txt
+PLC_Guardian/guardian/test_runs/a030/scratch_cfg_alert.json
+PLC_Guardian/guardian/test_runs/a030/scratch_cfg_alert.jsonl
+PLC_Guardian/guardian/test_runs/a030/scratch_cfg_alert_optin.json
+PLC_Guardian/guardian/test_runs/a030/scratch_cfg_alert_optin.jsonl
+PLC_Guardian/guardian/test_runs/a030/scratch_cfg_cooldown0.json
+PLC_Guardian/guardian/test_runs/a030/scratch_cfg_cooldown0.jsonl
+PLC_Guardian/guardian/test_runs/a030/scratch_cfg_disabled_bad.json
+PLC_Guardian/guardian/test_runs/a030/scratch_cfg_disabled_bad.jsonl
+PLC_Guardian/guardian/test_runs/a030/scratch_dstip_config.json
+PLC_Guardian/guardian/test_runs/a030/scratch_dstip_events.jsonl
+PLC_Guardian/guardian/test_runs/a030/scratch_policy_config.json
+PLC_Guardian/guardian/test_runs/a030/scratch_self_config.json
+PLC_Guardian/guardian/test_runs/a030/scratch_self_events.jsonl
+PLC_Guardian/guardian/test_runs/a033_http_watch
+PLC_Guardian/guardian/test_runs/a033_http_watch/http_watch_check.py
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_a_config.json
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_a_events.jsonl
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_a_events.jsonl.lock
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_b_config.json
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_b_events.jsonl
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_b_events.jsonl.lock
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_c_config.json
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_c_events.jsonl
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_c_events.jsonl.lock
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_c_rate_config.json
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_c_rate_events.jsonl
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_c_rate_events.jsonl.lock
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_d_closed_log_config.json
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_d_closed_log_events.jsonl
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_d_closed_log_events.jsonl.lock
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_d_race_config.json
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_d_race_events.jsonl
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_d_race_events.jsonl.lock
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_d_shutdown_config.json
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_d_shutdown_events.jsonl
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_d_shutdown_events.jsonl.lock
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_e_config.json
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_e_events.jsonl
+PLC_Guardian/guardian/test_runs/a033_http_watch/part_e_events.jsonl.lock
+PLC_Guardian/guardian/test_runs/a035_httpgate_round3
+PLC_Guardian/guardian/test_runs/a035_httpgate_round3/round3_check.py
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/Port_mirroring_test_3.pcapng
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/README.md
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/baseline_pm3.json
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/config_fixed.json
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/config_mapped.json
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/forensics_mixed_events.jsonl
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/forensics_report_mixed.md
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/make_mixed_pcap.py
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/mixed_pm3_synthetic.pcap
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/pm3_mapped.jsonl
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/pm3_regression_events.jsonl
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/proposed_fixes.patch
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/proxy_final.jsonl
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/proxy_replay.py
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/proxy_replay_results.txt
+PLC_Guardian/guardian/test_runs/port_mirroring_test_3/proxy_shipped.jsonl
+PLC_Guardian/guardian/tools
+PLC_Guardian/guardian/tools/mock_plc.py
+PLC_Guardian/guardian/tools/modbus_client.py
+PLC_Guardian/modbus_capture_practice.pcapng
+PLC_Guardian/project-log
+PLC_Guardian/project-log/00_PROJECT_BRIEF.md
+PLC_Guardian/project-log/01_STATUS.md
+PLC_Guardian/project-log/02_NEXT_STEPS.md
+PLC_Guardian/project-log/03_DECISIONS.md
+PLC_Guardian/project-log/04_SESSION_LOG.md
+PLC_Guardian/project-log/05_RAID_LOG.md
+PLC_Guardian/project-log/06_REFERENCE.md
+PLC_Guardian/project-log/07_REPORT_NOTES.md
+PLC_Guardian/test_connection.pcapng
+PLC_Guardian/tools
+PLC_Guardian/tools/plc_blackbox.py
+PLC_Guardian/tools/plc_lab_client.py
+README.md
+docs
+docs/ECE4311 - Group 7 Project Proposal.pdf
+project_structure.text

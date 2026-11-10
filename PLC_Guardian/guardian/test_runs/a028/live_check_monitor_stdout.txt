@@ -1,0 +1,7 @@
+Active response ENABLED (D-007): a ['BLOCK'] verdict will trigger Guardian's own FC5 write to coil 88 on 127.0.0.1:15041 (cooldown 5.0s).
+Sniffing tcp port 15041 on \Device\NPF_Loopback (passive: detect + log, no blocking). Ctrl+C to stop.
+[BLOCK] 2026-11-05T02:30:31.568145Z frame 4: 127.0.0.2 FC5 Write Single Coil addr=0 qty=1 values=[1] -> UNAUTHORIZED_CHANGE ['SRC_NOT_ALLOWLISTED']
+[ARESP] 2026-11-05T02:30:31.581135Z coil 88 on 127.0.0.1:15041 -> SUCCEEDED (trigger seq 2, BLOCK from 127.0.0.2)
+        2026-11-05T02:30:31.569287Z frame 6: PLC response -> ACCEPTED_BY_PLC
+[BLOCK] 2026-11-05T02:30:31.580494Z frame 15: 127.0.0.1 FC5 Write Single Coil addr=88 qty=1 values=[1] -> UNAUTHORIZED_CHANGE ['SRC_NOT_ALLOWLISTED']
+        2026-11-05T02:30:31.580964Z frame 17: PLC response -> ACCEPTED_BY_PLC

@@ -40,7 +40,7 @@ The simulated process is a **water storage tank**. During normal operation, an o
                   +--------------------+
 ```
 
-**Traffic monitoring:** Configure switch port mirroring so that relevant traffic from ports **2, 3, and 4** is copied to destination port **5**, subject to the TL-SG105E's firmware and mirroring capabilities. Verify that bidirectional PLC/HMI and attacker traffic is visible in Wireshark; mirror settings and oversubscription can affect completeness. If port 5 is used as a mirror destination, confirm whether it can simultaneously provide ordinary management connectivity. A separate management interface may be necessary.
+**Traffic monitoring:** Switch port mirroring copies ports **2, 3, and 4** to destination port **5** (Guardian). Verified bidirectional on all three source ports. The TL-SG105E has a known, recurring failure mode where mirror-config edits (adding/removing a mirrored source) don't reliably commit — a full Port Mirror disable→re-enable toggle is required to restore traffic flow after any edit (`PLC_Guardian/project-log/05_RAID_LOG.md`, I-007/I-010).
 
 **Prevention limitation:** Port mirroring is passive. A Guardian connected only to the mirror destination **cannot drop packets already being forwarded between ports 2–4**. Experiment 4 requires a verified enforcement path (for example, supported switch port controls, a firewall, or an inline gateway). Do not claim successful NIPS blocking until the control has been implemented and tested. Confirm the exact switch hardware revision, firmware, and supported features before choosing the enforcement mechanism.
 
@@ -117,14 +117,21 @@ unsupported/failed responses, PCAP, and Guardian alert timeline.
 
 **Goal:** Demonstrate Guardian classification and enforcement against unauthorized HTTP and Modbus TCP access.
 
-1. Define an allowlist for authorized HMI/PLC and engineering communications.
-2. Detect unapproved sources attempting to reach the HMI's TCP **80** service or the PLC's TCP **502** service.
-3. Generate alerts with source/destination IP, port, timestamp, and supporting PCAP reference.
-4. Apply blocking through a **separate, verified enforcement point**; the mirrored monitoring port alone is insufficient.
-5. Re-run authorized operator activity and unauthorized test attempts.
-6. Verify that authorized HMI-to-PLC operation still works and that blocked requests fail at the enforcement point.
+Guardian implements a reactive compensating control on each leg (a PLC-side
+lockout coil asserted within milliseconds of detecting an unauthorized write
+or connection), demonstrated live on hardware for both the Modbus leg (D-007)
+and the HTTP leg (D-009). A connection-level inline gate for the HTTP leg
+(D-008, `httpgate.py`) is built and architect-reviewed but not yet in the real
+traffic path. True inline blocking on either leg remains open
+(`A-004`/`A-019` Modbus, `A-033` HTTP).
+See [EXP_4 details](EXP_4/README.md) for what was built, demonstrated, and
+still open, with evidence citations.
 
-**Evidence:** Before/after PCAPs, alert logs, enforcement logs, and successful authorized-operation tests.
+**Evidence:** `PLC_Guardian/analysis/S-007_port80_ips_live_test.md`,
+`PLC_Guardian/analysis/S-007_blackbox_discovery_live_test.md`,
+`exp3_active_response_success_2026-11-04.pcapng` vs.
+`exp3_no_inline_baseline_2026-11-04.pcapng`, Guardian's hash-chained evidence
+log.
 
 ## Grey-box and black-box testing
 
@@ -248,14 +255,20 @@ In accordance with the project proposal:
 ## Current status and next steps
 
 - [x] PLC, HMI, attacker workstation, and Guardian assigned lab IP addresses and switch ports.
-- [x] TP-Link TL-SG105E managed switch selected.
-- [ ] Verify mirror configuration and bidirectional capture on port 5.
-- [ ] Commit PLC/HMI simulation code and a documented tag/register map.
-- [ ] Capture and analyze normal-operation baseline and EXP_1 reconnaissance.
-- [ ] Implement Guardian detection rules and forensic logging.
-- [ ] Validate EXP_2 and EXP_3 in the isolated simulation.
-- [ ] Select and verify an EXP_4 enforcement mechanism.
+- [x] TP-Link TL-SG105E managed switch selected; mirror verified bidirectional on ports 2/3/4 → 5.
+- [x] PLC/HMI simulation code and documented tag/register map committed (`ICS/`, `PLC_Guardian/project-log/06_REFERENCE.md`).
+- [x] Normal-operation baseline captured and analyzed.
+- [x] Guardian detection rules and hash-chained forensic logging implemented and live-tested.
+- [x] EXP_2 (maintenance-bypass write) validated: R-004 confirmed, write detected and classified.
+- [x] EXP_3 (discovery/fingerprinting) validated against real hardware; black-box scan confirmed read-only (zero writes across 1682 reads).
+- [x] EXP_4 reactive compensating controls demonstrated live on real hardware for both legs (D-007 Modbus, D-009 HTTP); see [EXP_4](EXP_4/README.md).
+- [ ] True inline enforcement on either leg (Modbus: `A-004`/`A-019`; HTTP: `A-033`) — both still reactive, not preventive.
+- [ ] Hardening residuals before calling EXP_4's controls "finished" (`A-031`, `A-035`, `A-036`).
 - [ ] Collect measurements, prepare the report, and record the demonstration.
+
+Full current status, open actions, and decision history:
+[`PLC_Guardian/project-log/01_STATUS.md`](PLC_Guardian/project-log/01_STATUS.md),
+[`02_NEXT_STEPS.md`](PLC_Guardian/project-log/02_NEXT_STEPS.md).
 
 ## Disclaimer
 

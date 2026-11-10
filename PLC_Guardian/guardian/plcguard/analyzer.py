@@ -171,6 +171,7 @@ def analyze_pcap(path: str, config: Config, evlog: Optional[EvidenceLog], baseli
 
 
 def sniff_live(iface: Optional[str], config: Config, evlog: EvidenceLog, baseline=None, on_event=None):
+    import scapy.layers.l2, scapy.layers.inet  # noqa: F401  register link types BEFORE sniff() picks a datalink
     from scapy.sendrecv import sniff
     a = Analyzer(config, evlog, sensor=f"live:{iface or 'default'}", baseline=baseline,
                  ts_source="host_clock (capture driver)", on_event=on_event)
