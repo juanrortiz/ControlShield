@@ -7,6 +7,15 @@ and blocking (`proxy.py`) are separate components, one per experiment step.
 - Python 3.10+. `pip install scapy` (only needed for pcap/live modes; the proxy is standard library only).
 - Live sniffing (`monitor`) needs **Npcap**. Proxy on port 502 needs an inbound firewall rule for TCP 502.
 
+## GUI (demo / presentation)
+`python gui.py` (or double-click `Launch_GUI.bat`) starts a local server and opens **http://127.0.0.1:8765** in your browser.
+The UI is a React app built with AlignUI components (`webui/`); **Node.js is needed on first run** (`gui.py` runs `npm install` + `npm run build` for you), after that only Python is needed.
+- **Live Demo:** simulated PLC + the real proxy + HMI / laptop / attacker clients on one machine, with a guided tour (no Guardian -> monitor -> auto-lockout -> block -> evidence). No hardware, no Npcap.
+- **Lab Mode / Analyze Captures / Evidence:** wrap the real commands below (start/stop `monitor`, `proxy`, `httpgate`; run `analyze` / `forensics` / `baseline`; verify a log, export CSV, tamper-with-a-copy demo).
+- **Docker** (for another machine): `docker build -t plc-guardian -f guardian/Dockerfile .` from the project root, then `docker run --rm -p 127.0.0.1:8765:8765 -v "<captures dir>:/data:ro" plc-guardian`. Supports Live Demo, Analyze and Evidence; Lab Mode is disabled in the image (needs raw capture + the lab network). Not yet tested (no Docker on the dev laptop).
+- **UI development:** `python gui.py --no-browser` in one terminal, `cd webui && npm run dev` in another (Vite proxies `/api`).
+See `docs/GUARDIAN_DESIGN.md` §4.12.
+
 ## Commands (run from this folder)
 | Experiment | Command |
 |---|---|

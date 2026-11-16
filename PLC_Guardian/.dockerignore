@@ -1,0 +1,17 @@
+.git
+**/node_modules
+**/dist
+**/__pycache__
+**/*.pyc
+guardian/demo
+guardian/logs
+guardian/reports
+guardian/test_runs
+guardian/webui/answers.txt
+guardian/webui/cli_out.txt
+*.pcap
+*.pcapng
+*.pdf
+project-log
+analysis
+captures
