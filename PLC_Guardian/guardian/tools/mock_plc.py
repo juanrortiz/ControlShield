@@ -73,9 +73,31 @@ async def client(reader, writer):
         writer.close()
 
 
-async def main(host, port, ready=None):
+async def simulate_tank():
+    """ILLUSTRATIVE tank process for the GUI demo (--sim); not the real PLC program.
+
+    Follows the behaviour documented in 06_REFERENCE (Start %M2 fills, level in %MW0, the
+    level-80 stop is defeated by the maintenance bypass %M4, %M6 = overload above 100, Reset
+    %M5 empties). The fill rate and the effect of the lockout coil %M7 (halts filling) are
+    made up for the demo.
+    """
+    while True:
+        await asyncio.sleep(0.4)
+        if COILS[5]:                                   # Reset
+            HREGS[0], COILS[2], COILS[5] = 0, 0, 0
+        level = HREGS[0]
+        filling = COILS[2] and not COILS[7] and (level < 80 or COILS[4]) and level < 150
+        if filling:
+            HREGS[0] = level + 3
+        COILS[6] = 1 if HREGS[0] > 100 else 0
+
+
+async def main(host, port, ready=None, sim=False):
     srv = await asyncio.start_server(client, host, port)
-    print(f"[mock PLC] listening on {host}:{srv.sockets[0].getsockname()[1]}")
+    print(f"[mock PLC] listening on {host}:{srv.sockets[0].getsockname()[1]}"
+          f"{' (illustrative tank simulation ON)' if sim else ''}", flush=True)
+    if sim:
+        asyncio.ensure_future(simulate_tank())
     if ready:
         ready.set()
     async with srv:
@@ -86,8 +108,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=5020)
+    ap.add_argument("--sim", action="store_true", help="run the illustrative tank simulation (GUI demo)")
     a = ap.parse_args()
     try:
-        asyncio.run(main(a.host, a.port))
+        asyncio.run(main(a.host, a.port, sim=a.sim))
     except KeyboardInterrupt:
         pass

@@ -65,6 +65,10 @@ The same dependency applies to `httpgate.py` (D-008) for the HMI's web API: it o
 
 | Path | Type | Purpose |
 |---|---|---|
+| `guardian/gui.py` | GUI launcher | `python gui.py` (or `Launch_GUI.bat`): builds `webui/dist` on first run (needs Node.js), starts the control-panel server and opens the browser (§4.12) |
+| `guardian/guiserver/` | GUI backend | `engine.py` (demo stack, Lab Mode, analyze, evidence helpers, event bus) and `server.py` (stdlib HTTP + SSE server) |
+| `guardian/webui/` | GUI front end | Vite + React + TypeScript app using AlignUI components (Tailwind 3 + AlignUI starter tokens); builds to `webui/dist` (git-ignored) |
+| `guardian/Dockerfile` | Packaging | Multi-stage image (Node build, Python runtime) for the Live Demo, Analyze and Evidence screens; Lab Mode disabled (§4.12) |
 | `guardian/guardian.py` | CLI entry point | Subcommands `proxy`, `monitor`, `analyze`, `baseline`, `forensics`, `verify`, `export` |
 | `guardian/config.json` | Configuration | Allowlist, PLC address, protected points, enforcement mode, proxy and log settings |
 | `guardian/README.md` | Quick start | Setup, commands, topology, evidence handling, test status |
@@ -281,8 +285,32 @@ Global options: `--config`, `--baseline`, `--log`.
 
 ### 4.11 Test tools
 
-* `tools/mock_plc.py --port 5020`: in-memory 100 coils / 100 holding registers; prints every write that reaches it (shows what got past Guardian).
+* `tools/mock_plc.py --port 5020 [--sim]`: in-memory 100 coils / 100 holding registers; prints every write that reaches it (shows what got past Guardian). `--sim` adds an ILLUSTRATIVE tank process for the GUI demo (Start %M2 fills `%MW0`, level-80 stop defeated by bypass %M4, %M6 overload above 100, Reset %M5, lockout %M7 halts filling); fill rate and lockout effect are not measurements of the real PLC.
 * `tools/modbus_client.py HOST[:PORT] read-hr|read-coils|write-reg|write-regs|write-coil ...`: lab-only client used as HMI/attacker stand-in. Use only on the isolated lab network (CLAUDE.md evidence rules).
+
+### 4.12 Control panel (`gui.py`, `guiserver/`, `webui/`)
+
+A local web app. It adds no detection logic of its own: it drives the existing CLI and modules.
+
+| Layer | Where | What it does |
+|---|---|---|
+| Launcher | `gui.py` | `python gui.py [--host H] [--port 8765] [--no-browser] [--rebuild]`. Builds `webui/dist` (`npm install` + `npm run build`) if it is missing, so **Node.js is required on first run**; afterwards only Python is needed. Opens the browser. |
+| Backend | `guiserver/server.py` | Standard-library `ThreadingHTTPServer`: JSON endpoints under `/api/`, a Server-Sent-Events stream at `/api/stream` (snapshot on connect, then rows, PLC state, console lines, packet animations) and the static files of `webui/dist`. |
+| Engine | `guiserver/engine.py` | Owns the demo stack, Lab Mode child processes, capture analysis and evidence helpers, and publishes every change on an event bus. |
+| Front end | `webui/` | Vite + React + TypeScript. Components are AlignUI's open-source ones (copied into `src/components/ui`); styling is Tailwind 3 with the AlignUI starter's token config (the AlignUI v4 CLI needs an interactive TTY, so the starter's tokens were used instead). Dark mode forced. |
+
+| Screen | What it does | Notes |
+|---|---|---|
+| Live Demo | Starts `tools/mock_plc.py --sim` (port 5020) and `guardian.py proxy` (port 5502) as child processes with a generated `guardian/demo/config.json`; three simulated clients bind to 127.0.0.10 (HMI), 127.0.0.2 (laptop), 127.0.0.99 (attacker) so Guardian sees different source IPs | Protected points are copied from the real `config.json`. Guardian ON/OFF = clients use port 5502 vs the PLC port directly. Monitor/Block and the attacker-allowlist switch rewrite the demo config (the proxy hot-reloads it on the next request). Auto-lockout hosts a real `ActiveResponder` in the server process (own log `demo_<ts>_lockout.jsonl`), fed from the proxy log; the real monitor wires it to its sniffer instead. A guided tour scripts: normal, Guardian OFF, monitor, +lockout, block, more rules, evidence. The tank is an illustrative simulation. |
+| Lab Mode | Start/stop `guardian.py monitor`, `proxy`, `httpgate` against `config.json`; edit `enforcement.mode`, `active_response.enabled`, `http_watch.enabled` (confirmation dialog first) | Each run logs to a fresh `logs/gui_<cmd>_<ts>.jsonl`. Monitor reads the two flags at startup (restart needed). Disabled when `GUARDIAN_LAB=0`. |
+| Analyze Captures | Runs `analyze` / `forensics` / `baseline` on a capture; shows SHA-256 before and after | Outputs to `logs/gui_*` and `reports/gui_*/`; the capture is only read. |
+| Evidence | `verify`, CSV export, tamper-with-a-COPY demo | Never modifies the original log. |
+
+**Security (localhost-only by default).** The server binds 127.0.0.1. Every request must carry a localhost `Host` header (blocks DNS rebinding); POSTs must be `application/json` and, if an `Origin` header is present, it must be a localhost origin (blocks cross-site requests from other pages). File paths from the UI are resolved and confined to the project and `GUARDIAN_DATA` folders. Children are stopped with Ctrl+Break so Guardian still writes `SESSION_END`; the demo never touches the lab network.
+
+**Docker.** `guardian/Dockerfile` (build from the project root: `docker build -t plc-guardian -f guardian/Dockerfile .`; run: `docker run --rm -p 127.0.0.1:8765:8765 -v "<captures dir>:/data:ro" plc-guardian`) packages the Live Demo, Analyze Captures and Evidence. Lab Mode is disabled in the image (`GUARDIAN_LAB=0`): it needs raw packet capture and the isolated lab network. Env vars: `GUARDIAN_WEBUI_DIST`, `GUARDIAN_DATA`, `GUARDIAN_ALLOWED_HOSTS`. [UNVERIFIED: the image has not been built or run; Docker is not installed on the dev laptop.]
+
+**UI development.** Run `python gui.py --no-browser` in one terminal and `cd webui && npm run dev` in another; Vite proxies `/api` to port 8765.
 
 ---
 
