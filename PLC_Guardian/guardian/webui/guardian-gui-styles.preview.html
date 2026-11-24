@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>guardian-gui-styles preview</title>
+<link rel="stylesheet" href="guardian-gui-styles.css">
+</head>
+<body>
+<div class="g-app">
+  <aside class="g-sidebar">
+    <div class="g-brand"><div class="g-brand__name">PLC GUARD</div><div class="g-brand__sub">Network forensics · ECE4311</div></div>
+    <div class="g-nav-label">Explore</div>
+    <nav class="g-nav">
+      <button class="g-nav__item is-active"><span class="g-nav__icon"></span><span class="g-nav__grow">Live Demo</span><span class="g-badge g-badge--blue">Safe</span></button>
+      <button class="g-nav__item"><span class="g-nav__grow">Lab Mode</span><span class="g-badge g-badge--orange">Real</span></button>
+      <button class="g-nav__item"><span class="g-nav__grow">Analyze Captures</span></button>
+      <button class="g-nav__item"><span class="g-nav__grow">Evidence</span></button>
+    </nav>
+    <div class="g-sidebar__foot">
+      <span class="g-status g-status--completed"><span class="g-status__dot"></span>Running</span>
+      <div class="g-conn"><span class="g-conn__dot"></span>Connected</div>
+      <div class="is-muted">Isolated lab · evidence is read-only</div>
+    </div>
+  </aside>
+  <main class="g-content"><div class="g-content__inner g-stack">
+    <div class="g-page-head"><div><h1 class="g-page-title">Live Demo</h1><p class="g-page-sub">Simulated PLC, real Guardian proxy, three clients.</p></div></div>
+
+    <section class="g-card g-card--weak g-tour">
+      <div class="g-tour__row">
+        <div class="g-tour__text">
+          <span class="g-tour__chip">Guided tour · 3/8</span><h2 class="g-tour__title">3 · MONITOR mode: detected, not stopped</h2>
+          <p class="g-tour__body">Same attack, Guardian on but only monitoring. It flags the write and logs who, what and why.</p>
+          <div class="g-dots"><button class="g-dot"></button><button class="g-dot"></button><button class="g-dot is-active"></button><button class="g-dot"></button></div>
+        </div>
+        <div style="display:flex;gap:.5rem"><button class="g-btn">◀</button><button class="g-btn g-btn--primary">▶ Run this step</button><button class="g-btn">▶</button></div>
+      </div>
+    </section>
+
+    <section class="g-card">
+      <div style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-end">
+        <div style="display:flex;gap:.5rem;align-items:center"><button class="g-btn g-btn--primary">Start system</button><button class="g-btn" disabled>Stop</button></div>
+        <div><div class="g-field-label">Is Guardian in the path?</div><div class="g-seg"><button class="g-seg__item is-active">Guardian ON</button><button class="g-seg__item">Guardian OFF</button></div></div>
+        <div><div class="g-field-label">Enforcement mode</div><div class="g-seg"><button class="g-seg__item">Monitor</button><button class="g-seg__item is-active">Block</button></div></div>
+        <div style="display:flex;flex-direction:column;gap:.375rem">
+          <label class="g-switch-row"><span class="g-switch"><input type="checkbox" checked><span class="g-switch__track"></span><span class="g-switch__thumb"></span></span>Auto-lockout (D-007)</label>
+          <label class="g-switch-row"><span class="g-switch"><input type="checkbox"><span class="g-switch__track"></span><span class="g-switch__thumb"></span></span>Allowlist attacker</label>
+        </div>
+        <button class="g-btn g-btn--ghost" style="margin-left:auto">Reset PLC</button>
+      </div>
+    </section>
+
+    <div class="g-split">
+      <section class="g-card"><div class="g-card__head"><h3 class="g-card__title">Traffic path</h3></div>
+        <svg class="g-svg" viewBox="0 0 1000 300" style="height:230px">
+          <g class="g-actor-hmi"><rect class="node stroke-current" x="30" y="40" width="220" height="70" rx="16"/><text class="t-strong" x="140" y="70" text-anchor="middle">HMI</text><text class="t-ok" x="140" y="94" text-anchor="middle">127.0.0.10 · allowlisted</text></g>
+          <g class="g-actor-attacker"><rect class="node stroke-current" x="30" y="180" width="220" height="70" rx="16"/><text class="t-strong" x="140" y="210" text-anchor="middle">Attacker</text><text class="t-bad" x="140" y="234" text-anchor="middle">127.0.0.99 · NOT allowlisted</text></g>
+          <line class="g-actor-hmi stroke-current" x1="250" y1="75" x2="400" y2="150" stroke-width="2.5"/><line class="g-actor-attacker stroke-current" x1="250" y1="215" x2="400" y2="150" stroke-width="2.5"/>
+          <g class="g-allow"><rect class="node node--big stroke-current" x="400" y="80" width="230" height="140" rx="20"/></g>
+          <text class="t-title" x="515" y="125" text-anchor="middle">PLC GUARDIAN</text><text class="t-ok" x="515" y="155" text-anchor="middle">BLOCK mode</text><text class="t-lock" x="515" y="200" text-anchor="middle">auto-lockout armed</text>
+          <circle class="packet g-block" cx="330" cy="180" r="11"/>
+        </svg></section>
+      <section class="g-card"><div class="g-card__head"><h3 class="g-card__title">PLC process (simulated)</h3></div>
+        <div style="display:flex;gap:1rem">
+          <div class="g-tank"><div class="g-tank__fill is-warn" style="height:62%"></div><div class="g-tank__mark" style="bottom:53%"></div><span class="g-tank__mark-label" style="bottom:calc(53% + 2px)">80</span></div>
+          <ul class="g-coils"><li><span class="g-lamp g-lamp--ok"></span><code>%M2</code> Start</li><li><span class="g-lamp"></span><code>%M3</code> Stop</li><li><span class="g-lamp g-lamp--danger"></span><code>%M4</code> Maintenance bypass</li><li><span class="g-lamp g-lamp--lock"></span><code>%M7</code> Guardian lockout</li></ul>
+        </div>
+        <div class="g-process-state g-lock">Locked out by Guardian</div></section>
+    </div>
+
+    <div class="g-alert g-alert--info"><span class="g-alert__icon">ⓘ</span><span class="g-alert__title">Attacker: Bypass %M4 = 1 → PLC/Guardian reply: EXCEPTION 1 (Illegal Function)</span></div>
+    <div class="g-alert g-alert--warning"><span class="g-alert__icon">⚠</span>Lab Mode drives the REAL passive monitor on the lab network.</div>
+
+    <div class="g-counters">
+      <div class="g-counter"><span class="g-counter__n g-allow">12</span><span class="g-counter__label">Allowed</span></div>
+      <div class="g-counter"><span class="g-counter__n g-alert-tag">1</span><span class="g-counter__label">Alerts</span></div>
+      <div class="g-counter"><span class="g-counter__n g-detect">2</span><span class="g-counter__label">Detected only</span></div>
+      <div class="g-counter"><span class="g-counter__n g-block">4</span><span class="g-counter__label">Blocked</span></div>
+      <div class="g-counter"><span class="g-counter__n g-lock">1</span><span class="g-counter__label">Lockouts</span></div>
+    </div>
+
+    <div>
+      <div class="g-toolbar">
+        <div class="g-tabs g-toolbar__grow"><button class="g-tab is-active">Live evidence feed <span class="g-tab__count">6</span></button><button class="g-tab">Process console</button></div>
+        <div class="g-seg g-seg--text-sizes"><button class="g-seg__item" style="font-size:.75rem">A</button><button class="g-seg__item is-active">A</button><button class="g-seg__item" style="font-size:1rem">A</button></div>
+        <button class="g-btn">Full screen</button>
+      </div>
+      <div class="g-feed-wrap" style="margin-top:.75rem"><div class="g-feed" style="max-height:340px">
+        <table><thead><tr><th>Time</th><th>Source</th><th>What it tried</th><th>Guardian's verdict</th><th>Why</th></tr></thead><tbody>
+          <tr><td class="is-time is-mono">12:52:31.859</td><td class="g-allow">HMI · 127.0.0.10</td><td class="is-mono">FC5 Write Single Coil addr=2 qty=1 values=[1]</td><td><span class="g-badge g-badge--feed-md g-badge--green">allowed</span></td><td class="is-why">authorized: authorized change</td></tr>
+          <tr><td class="is-time is-mono">12:52:31.870</td><td class="g-resp">↳ PLC</td><td class="is-mono">FC5 Write Single Coil addr=2</td><td><span class="g-badge g-badge--feed-md g-badge--sky">accepted by PLC</span></td><td class="is-why">ACCEPTED_BY_PLC</td></tr>
+          <tr><td class="is-time is-mono">12:52:35.101</td><td class="g-detect">Attacker · 127.0.0.99</td><td class="is-mono">FC5 Write Single Coil addr=4 qty=1 values=[1]</td><td><span class="g-badge g-badge--feed-md g-badge--orange">DETECTED, not stopped</span></td><td class="is-why">sender is not on the allowlist; value is outside the safe range</td></tr>
+          <tr><td class="is-time is-mono">12:52:35.180</td><td class="g-lock">Guardian (self)</td><td class="is-mono">FC5 write coil %M7 = 1 (lockout)</td><td><span class="g-badge g-badge--feed-md g-badge--purple">LOCKOUT SUCCEEDED</span></td><td class="is-why">reaction to UNAUTHORIZED_CHANGE from 127.0.0.99</td></tr>
+          <tr><td class="is-time is-mono">12:52:40.402</td><td class="g-block">Attacker · 127.0.0.99</td><td class="is-mono">FC6 Write Single Register addr=0 qty=1 values=[0]</td><td><span class="g-badge g-badge--feed-md g-badge--red">BLOCKED</span></td><td class="is-why">sender is not on the allowlist; target is a read-only PLC point</td></tr>
+          <tr><td class="is-time is-mono">12:52:41.000</td><td class="g-bypass">Attacker · 127.0.0.99</td><td class="is-mono">FC5 Write Single Coil addr=4</td><td><span class="g-badge g-badge--feed-md g-badge--pink">no Guardian</span></td><td class="is-why">Guardian was not in the path: nothing was checked or logged</td></tr>
+        </tbody></table></div><button class="g-btn g-btn--primary g-btn--xs g-jump">↓ Jump to latest</button></div>
+    </div>
+
+    <section class="g-card" style="display:grid;gap:.75rem;grid-template-columns:1fr 1fr 1fr">
+      <input class="g-input" placeholder="Capture interface (e.g. Ethernet)"><select class="g-select"><option>Choose a capture…</option></select>
+      <div style="display:flex;gap:.5rem"><button class="g-btn g-btn--error">Stop</button><button class="g-btn g-btn--xs">Detect</button><button class="g-btn g-btn--ghost g-btn--xxs">Clear view</button>
+        <span class="g-badge g-badge--gray">gray</span><span class="g-badge g-badge--teal">teal</span><span class="g-status g-status--failed"><span class="g-status__dot"></span>Failed</span></div>
+    </section>
+  </div></main>
+</div>
+</body></html>
