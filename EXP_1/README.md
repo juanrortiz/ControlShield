@@ -31,7 +31,6 @@ Scan the selected ports on both the HMI and PLC, saving Nmap output with `-oA`.
 No separate Python script is needed.
 
 ```bash
-# HMI and PLC: selected web/industrial service ports.
 nmap -sT -Pn -n -p 80,443,502,44818,8080 --open 192.168.8.10 192.168.8.11 \
   -oA "results/$RUN_ID/04_hmi_plc_selected_ports"
 ```
