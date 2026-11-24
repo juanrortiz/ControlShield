@@ -19,8 +19,9 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
     id: 'what', title: 'What is PLC Guardian?',
     body: (
       <P>
-        A monitor and enforcer for Modbus/TCP traffic between an HMI and a Schneider M221 PLC. Every request is judged by a policy,
-        written to a tamper-evident log and, optionally, blocked.
+        A monitor for Modbus/TCP traffic between an HMI and a Schneider M221 PLC. Every request is judged by a policy and written to a
+        tamper-evident log. On the real lab hardware Guardian is passive: it detects, logs and reacts. The Live Demo also shows a blocking
+        proxy refusing unauthorized requests against a simulated PLC.
       </P>
     ),
   },
@@ -32,7 +33,7 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
         <UL>
           <li><strong>Detect</strong>: {mono('policy.py')} decides ALLOW / ALERT / BLOCK for each request.</li>
           <li><strong>Log</strong>: {mono('evidence_log.py')} writes an append-only JSONL log chained with SHA-256 (see the Evidence screen).</li>
-          <li><strong>Block</strong>: {mono('proxy.py')} refuses the request when Guardian is inline.</li>
+          <li><strong>Block</strong>: {mono('proxy.py')} refuses unauthorized requests. This is what the Live Demo shows, against a simulated PLC.</li>
           <li><strong>React</strong>: {mono('active_response.py')} writes a lockout coil on the PLC when Guardian can only watch (D-007).</li>
         </UL>
       </>
@@ -62,7 +63,7 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
         </P>
         <UL>
           <li><strong>Guardian ON/OFF</strong>: clients go through the proxy, or straight to the PLC.</li>
-          <li><strong>Monitor/Block</strong>: changes {mono('enforcement.mode')} in the demo config; the proxy hot-reloads it on the next request.</li>
+          <li><strong>Monitor/Block</strong>: changes {mono('enforcement.mode')} in the demo config; the proxy hot-reloads it on the next request. Block mode demonstrates Guardian's blocking proxy against a simulated PLC.</li>
           <li><strong>Auto-lockout</strong>: the server hosts a real {mono('ActiveResponder')} that fires on BLOCK-grade events (the real monitor does the same from its sniffer).</li>
           <li><strong>Allowlist attacker</strong>: adds 127.0.0.99 as read-only, live. Its reads then pass; its writes are still refused.</li>
           <li><strong>Reset PLC</strong> (the tour does this between steps): writes zeros straight to the simulated PLC, bypassing Guardian. It is not an attack.</li>
@@ -77,11 +78,18 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
   {
     id: 'lab', title: 'Lab Mode',
     body: (
-      <P>
-        Runs the real {mono('guardian.py')} commands (monitor, proxy, httpgate) against the lab network and edits the live flags in {mono('guardian/config.json')}.
-        Each run writes a fresh log in {mono('guardian/logs/gui_<cmd>_<time>.jsonl')} (never an existing file). The passive monitor can only detect and react;
-        true prevention needs Guardian inline (D-003 / A-004). Lab Mode is switched off inside Docker.
-      </P>
+      <>
+        <P>
+          Runs the real passive monitor ({mono('guardian.py monitor')}) on the lab mirror port and edits the two flags it reads at start-up in{' '}
+          {mono('guardian/config.json')}: {mono('active_response.enabled')} (D-007 lockout) and {mono('http_watch.enabled')} (D-009 HTTP watch).
+          Each run writes a fresh log in {mono('guardian/logs/gui_monitor_<time>.jsonl')} (never an existing file).
+        </P>
+        <P>
+          On real hardware Guardian is <strong>passive</strong>: it detects, logs and reacts (the D-007 lockout write to {mono('%M7')}, the D-009 HTTP watch).
+          It does not block traffic in real time. <strong>Quick clear</strong> resets {mono('%M7')} (Control Shield) and {mono('%M4')} (Maintenance bypass)
+          on the real PLC with one press, from an allowlisted host only. Lab Mode is switched off inside Docker.
+        </P>
+      </>
     ),
   },
   {

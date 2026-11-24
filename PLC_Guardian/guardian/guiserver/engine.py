@@ -1,7 +1,7 @@
 """PLC Guardian control-panel engine: everything the web UI can do, with no UI code in it.
 
 The engine owns the demo stack (simulated PLC + the real Guardian proxy + three simulated clients),
-the Lab Mode child processes, capture analysis and evidence-log helpers. Every observable change is
+the Lab Mode passive monitor and quick clear, capture analysis and evidence-log helpers. Every observable change is
 published on an event bus; `server.py` streams it to the browser as Server-Sent Events.
 """
 from __future__ import annotations
@@ -25,7 +25,7 @@ ROOT = os.path.dirname(HERE)                                              # proj
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "tools"))
 
-from plcguard.active_response import ActiveResponder      # noqa: E402
+from plcguard.active_response import ActiveResponder, _detect_own_ip, send_fc5   # noqa: E402
 from plcguard.config import Config                        # noqa: E402
 from plcguard.evidence_log import EvidenceLog, export_csv, utc_iso, verify   # noqa: E402
 from plcguard.modbus import parse_frame                   # noqa: E402
@@ -326,7 +326,7 @@ TOUR = [
      "itself (purple row). The PLC halts the fill. This is the compensating control used when Guardian can only watch "
      "a mirror port.", "tour_lockout"),
     ("5 · BLOCK mode: the attack never reaches the PLC",
-     "Guardian is inline in block mode. The attacker's write is refused with a Modbus exception, %M4 never changes and "
+     "Guardian's proxy is in block mode. The attacker's write is refused with a Modbus exception, %M4 never changes and "
      "the tank stops at 80. The HMI keeps working normally.", "tour_block"),
     ("6 · More things Guardian catches",
      "The attacker probes with a read, tries to fake the tank level on a read-only register, and the HMI tries an "
@@ -388,7 +388,7 @@ class Engine:
             procs = {k: p.alive() for k, p in self.lab_procs.items()}
             return {**self.st, "counts": dict(self.counts), "plc": self.plc, "result": self.last_result,
                     "demo_log": self.guardian_log, "lab_enabled": LAB_ENABLED,
-                    "lab_running": {k: procs.get(k, False) for k in ("monitor", "proxy", "httpgate")},
+                    "lab_running": {"monitor": procs.get("monitor", False)},
                     "lab_logs": dict(self.lab_logs), "analyze_busy": self.an_busy}
 
     def snapshot(self) -> dict:
@@ -416,7 +416,7 @@ class Engine:
         return row
 
     def out_cb(self, name: str, line: str) -> None:
-        ch = "analyze" if name.startswith("an:") else "lab" if name in ("monitor", "proxy", "httpgate") else "demo"
+        ch = "analyze" if name.startswith("an:") else "lab" if name == "monitor" else "demo"
         text = line if ch == "analyze" else f"[{name}] {line}"
         with self._lock:
             self.console[ch].append(text)
@@ -727,22 +727,19 @@ class Engine:
         except (OSError, ValueError) as e:
             raise ApiError(f"config.json: {e}", 500) from e
         plc, hw, ar = d.get("plc", {}), d.get("http_watch", {}), d.get("active_response", {})
-        return {"mode": d.get("enforcement", {}).get("mode", "block"), "active_response": bool(ar.get("enabled")),
-                "http_watch": bool(hw.get("enabled")),
+        return {"active_response": bool(ar.get("enabled")), "http_watch": bool(hw.get("enabled")),
                 "info": {"plc": f"{plc.get('ip')}:{plc.get('port')}", "lockout_coil": ar.get("lockout_coil"),
                          "hmi_watch": f"{hw.get('hmi_ip')}:{hw.get('hmi_port')}",
                          "allowlist": [f"{v.get('name', k)} ({k})" for k, v in d.get("authorized_sources", {}).items()]}}
 
-    def lab_apply(self, mode: str, active_response: bool, http_watch: bool) -> dict:
+    def lab_apply(self, active_response: bool, http_watch: bool) -> dict:
+        """Set the two flags the passive monitor reads at start-up; every other setting is left as it is."""
         self._need_lab()
-        if mode not in ("monitor", "block"):
-            raise ApiError("mode must be monitor or block")
         with open(REAL_CONFIG, encoding="utf-8") as fh:
             d = json.load(fh)
-        d["enforcement"]["mode"], d["active_response"]["enabled"], d["http_watch"]["enabled"] = \
-            mode, bool(active_response), bool(http_watch)
+        d["active_response"]["enabled"], d["http_watch"]["enabled"] = bool(active_response), bool(http_watch)
         write_json_atomic(REAL_CONFIG, d)
-        self.out_cb("gui", f"config.json updated: mode={mode} active_response={active_response} http_watch={http_watch}")
+        self.out_cb("gui", f"config.json updated: active_response={bool(active_response)} http_watch={bool(http_watch)}")
         return self.lab_config()
 
     def lab_ifaces(self) -> list:
@@ -753,20 +750,58 @@ class Engine:
         except Exception as e:      # noqa: BLE001
             raise ApiError(f"interface detection failed (is scapy/Npcap installed?): {e}", 500) from e
 
-    def lab_start(self, key: str, iface: str = "") -> None:
+    def lab_coils(self) -> dict:
+        """Read-only status of the real PLC's %M2-%M7 plus whether THIS host may write to it."""
         self._need_lab()
-        if key not in ("monitor", "proxy", "httpgate"):
-            raise ApiError("unknown sensor")
+        cfg = Config(REAL_CONFIG)
+        own = _detect_own_ip(cfg.plc_ip, cfg.plc_port)
+        src = cfg.sources.get(own or "")
+        out = {"plc": f"{cfg.plc_ip}:{cfg.plc_port}", "own_ip": own, "reachable": False, "coils": {},
+               "writer_ok": bool(src and "write" in src.get("allow", []))}
+        try:
+            unit = int(cfg.get("active_response", {}).get("unit", UNIT))
+            c = mc.request(cfg.plc_ip, cfg.plc_port, unit, pdu_read_coils(2, 6), timeout=1.5)
+            out["coils"] = {f"M{2 + i}": (c[2] >> i) & 1 for i in range(6)}
+            out["reachable"] = True
+        except Exception:       # noqa: BLE001
+            pass
+        return out
+
+    def lab_clear(self, coil: int) -> dict:
+        """One-click clear of %M7 (Guardian lockout) or %M4 (maintenance bypass) on the REAL PLC.
+
+        Sent with Guardian's own validated FC5 helper (the reply must echo the request). Refused
+        unless this host is an allowlisted writer, otherwise a running Guardian would flag the write
+        as an attack and re-fire the lockout."""
+        self._need_lab()
+        if coil not in (4, 7):
+            raise ApiError("only %M4 (maintenance bypass) and %M7 (Control Shield lockout) can be cleared here")
+        cfg = Config(REAL_CONFIG)
+        own = _detect_own_ip(cfg.plc_ip, cfg.plc_port)
+        src = cfg.sources.get(own or "")
+        if not src or "write" not in src.get("allow", []):
+            raise ApiError(f"this host ({own}) is not an allowlisted writer in config.json, so the write would be "
+                           "treated as an attack. Run this from the allowlisted engineering laptop.", 403)
+        unit = int(cfg.get("active_response", {}).get("unit", UNIT))
+        try:
+            send_fc5(cfg.plc_ip, cfg.plc_port, unit, coil, False, 2.0)
+        except Exception as e:      # noqa: BLE001
+            raise ApiError(f"write to {cfg.plc_ip}:{cfg.plc_port} failed: {e}", 502) from e
+        self.out_cb("gui", f"cleared %M{coil} on {cfg.plc_ip}:{cfg.plc_port} from {own}")
+        return self.lab_coils()
+
+    def lab_start(self, key: str, iface: str = "") -> None:
+        """Start the passive monitor (the only Lab sensor) on a mirror-port interface."""
+        self._need_lab()
+        if key != "monitor":
+            raise ApiError("unknown sensor: Lab Mode only runs the passive monitor")
         p = self.lab_procs.get(key)
         if p and p.alive():
             raise ApiError(f"{key} is already running", 409)
-        args = ["--config", REAL_CONFIG]
+        if not iface.strip():
+            raise ApiError("a capture interface is required for the passive monitor")
         log = os.path.join(HERE, "logs", f"gui_{key}_{now_tag()}.jsonl")
-        args += ["--log", log, key]
-        if key == "monitor":
-            if not iface.strip():
-                raise ApiError("a capture interface is required for the passive monitor")
-            args += ["--iface", iface.strip()]
+        args = ["--config", REAL_CONFIG, "--log", log, key, "--iface", iface.strip()]
         p = Proc(key, [GUARDIAN_PY, *args], self.out_cb)
         p.start()
         self.lab_procs[key] = p

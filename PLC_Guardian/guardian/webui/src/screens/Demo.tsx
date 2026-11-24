@@ -13,7 +13,7 @@ import { cn } from '@/utils/cn';
 import { api } from '@/api';
 import { useGuardian } from '@/store';
 import { Topology } from '@/components/Topology';
-import { Card, ConsolePane, FeedTable, Tabs } from '@/ui';
+import { Card, FeedPanel } from '@/ui';
 
 const ACTOR_RING: Record<string, string> = { hmi: 'text-information-base', laptop: 'text-teal-500', attacker: 'text-error-base' };
 const COILS: [number, string, string][] = [
@@ -146,7 +146,7 @@ function Sw({ label, tip, checked, onChange }: { label: string; tip: string; che
 }
 
 export default function Demo() {
-  const { state, meta, rows, anims } = useGuardian();
+  const { state, meta, rows, anims, console: con } = useGuardian();
   if (!state || !meta) return <div className='p-8 text-text-sub-600'>Connecting to the PLC Guardian server…</div>;
   const running = state.system === 'running';
   const busy = state.system === 'starting' || state.system === 'stopping';
@@ -177,7 +177,7 @@ export default function Demo() {
             <div>
               <div className='mb-1 text-paragraph-xs text-text-sub-600'>Is Guardian in the path?</div>
               <Seg value={state.route} onChange={(v) => ctl({ route: v })} items={[
-                ['on', 'Guardian ON', 'Clients talk to the PLC THROUGH Guardian (the inline proxy).'],
+                ['on', 'Guardian ON', "Clients talk to the PLC THROUGH Guardian (Guardian's blocking proxy, demo only)."],
                 ['off', 'Guardian OFF', "Clients talk straight to the PLC: no checks, no log. This is the 'before' picture."]]} />
             </div>
             <div>
@@ -241,16 +241,8 @@ export default function Demo() {
           <Button.Root variant='neutral' mode='ghost' size='xsmall' className='ml-auto' onClick={() => api.post('/api/clear', { ch: 'demo' })}>Clear view</Button.Root>
         </div>
 
-        <Tabs className='min-h-[320px]' tabs={[
-          { value: 'feed', label: 'Live evidence feed', content: <FeedTable rows={rows.demo} className='h-[300px]' empty='Start the system, then use the buttons above.' /> },
-          { value: 'console', label: 'Process console', content: <ConsoleDemo /> },
-        ]} />
+        <FeedPanel rows={rows.demo} lines={con.demo} empty='Start the system, then use the buttons above.' />
       </div>
     </Tooltip.Provider>
   );
-}
-
-function ConsoleDemo() {
-  const { console: c } = useGuardian();
-  return <ConsolePane lines={c.demo} className='h-[300px]' />;
 }
