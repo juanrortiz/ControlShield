@@ -12,7 +12,7 @@ M2: Guardian detection working end-to-end on lab hardware. True inline blocking 
 - Black-box discovery tool (open PR, `plc_blackbox_test.py`) confirmed good both by code review and by live capture: zero writes across 1682 real reads against the PLC, exactly the documented fingerprint → port-scan → enumeration sequence
 - Switch mirror (TL-SG105E) now mirrors **both** Port 2 (PLC) and Port 3 (HMI) → Port 5 (Guardian) — a second occurrence of the switch's silent mirror-config-loss failure mode happened and was resolved this session (I-010); the switch needs a full Port-Mirror disable→re-enable toggle to reliably commit changes, not just editing the port list
 - Guardian's evidence-log locking reworked to a sidecar file (`path + ".lock"`), fixing a Windows read-blocking issue found during D-008's review rounds
-- Project pushed to GitHub: `MetalStarfish24/plc-guardian` main branch, commit `8d10ecc` (101 files, D-007 live confirmation through tonight's work); PR #2 (open, unmerged) still pending on the team's shared `juanrortiz/ControlShield` repo
+- Project pushed to GitHub: `MetalStarfish24/plc-guardian` main branch, commit `8d10ecc` (101 files, D-007 live confirmation through tonight's work). Team's shared `juanrortiz/ControlShield` repo: PR #2 merged, then `PLC_Guardian/` synced to this current state (`juanrortiz/ControlShield#4`, merged) and all evidence captures including the 3 new S-007 ones added (`juanrortiz/ControlShield#5`, merged) — `ControlShield` is now current
 
 ## In progress
 - **A-033 (HTTP-leg inline topology):** same category of problem as A-004 — needs the HMI reachable only through Guardian's gate. Not started; two options identified (ARP-based redirection vs. an IP-allowlist setting on the HMI's own admin UI, not yet checked)
@@ -21,12 +21,10 @@ M2: Guardian detection working end-to-end on lab hardware. True inline blocking 
 ## Active blockers
 - No inline topology for either leg yet (Modbus: X-001/A-004/A-019; HTTP: A-033)
 - A-031 (active-response Modbus-side hardening residuals), A-035 (http_watch residuals), A-036 (config validation hardening) — all open, none blocking current results
-- Three new captures not yet moved into `captures/` — blocked for Claude by the `.pcapng` write deny rule (A-037), needs a manual copy
 - Two pre-D-006 evidence files still not found locally (A-026)
 - Attacker `.99` shares `.2`'s MAC (A-021)
 
 ## Current focus (next session)
 - A-033 (HTTP inline topology — check the HMI's own admin UI for an IP-allowlist option before reaching for ARP redirection)
-- A-037 (move the 3 pending captures into `captures/`)
 - A-031/A-035/A-036 (hardening residuals, not urgent but needed before calling those controls "finished" for the report)
 - A-004/A-019 (Modbus inline topology, for the three-way before/after/inline comparison)

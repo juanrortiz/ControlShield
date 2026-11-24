@@ -43,7 +43,7 @@
     },
     "192.168.8.50": {
       "name": "Engineering laptop",
-      "mac": "00:e0:4c:68:00:f4",
+      "mac": "00:0e:c6:fe:02:ee",
       "allow": [
         "read",
         "write",
