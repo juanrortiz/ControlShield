@@ -165,6 +165,14 @@ Baseline and detection rules
 
 The IDS should not infer a successful PLC state change from a network connection alone. Correlate packet evidence with PLC/HMI state logs, application events, or an explicitly documented register readback. Distinguish **detected**, **attempted**, **accepted**, and **blocked** events in reports.
 
+### Web control panel
+
+Guardian also ships a local web control panel (React + AlignUI, served by `python gui.py` at
+`http://127.0.0.1:8765`) with five screens: **Live Demo** (simulated, no hardware), **Lab Mode** (real
+`monitor`, the D-007/D-009 flags, and one-press quick-clear for `%M7` and `%M4`), **Analyze Captures**,
+**Evidence** (hash-chain verify, CSV export) and **Help**. It wraps the real Guardian commands and adds no
+detection logic. See [`PLC_Guardian/guardian/webui/README.md`](PLC_Guardian/guardian/webui/README.md).
+
 ### Suggested detection fields
 
 - Timestamp and experiment ID
@@ -194,7 +202,7 @@ ControlShield/
 │   └── results/
 ├── EXP_4/                  # Detection and prevention validation
 ├── ICS/                    # PLC program, HMI project, exported configuration
-├── PLC_Guardian/           # Guardian application, analysis, historical evidence
+├── PLC_Guardian/           # Guardian application (incl. guardian/webui web panel), analysis, historical evidence
 ├── LaTex/                  # Technical report source and build outputs
 ├── docs/                   # Proposal and supporting documents
 └── README.md
@@ -225,6 +233,7 @@ changes to one copy do not automatically update another.
 | Vijeo Designer v6.2.12.2102| Operator controls and diagnostic-service configuration |
 | Wireshark / TShark | Packet capture and protocol analysis |
 | Python | Guardian detection, logging, and test harnesses |
+| Node.js / React (Vite) | PLC Guardian web control panel (`PLC_Guardian/guardian/webui/`); needed on first run only |
 | Nmap | Authorized lab service discovery |
 | Git | Version control and experiment documentation |
 | LaTeX | Final technical report |
@@ -262,6 +271,7 @@ In accordance with the project proposal:
 - [x] EXP_2 (maintenance-bypass write) validated: R-004 confirmed, write detected and classified.
 - [x] EXP_3 (discovery/fingerprinting) validated against real hardware; black-box scan confirmed read-only (zero writes across 1682 reads).
 - [x] EXP_4 reactive compensating controls demonstrated live on real hardware for both legs (D-007 Modbus, D-009 HTTP); see [EXP_4](EXP_4/README.md).
+- [x] Web control panel (Live Demo, Lab Mode with quick-clear, Analyze, Evidence) merged.
 - [ ] True inline enforcement on either leg (Modbus: `A-004`/`A-019`; HTTP: `A-033`) — both still reactive, not preventive.
 - [ ] Hardening residuals before calling EXP_4's controls "finished" (`A-031`, `A-035`, `A-036`).
 - [ ] Collect measurements, prepare the report, and record the demonstration.
