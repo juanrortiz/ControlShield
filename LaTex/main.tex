@@ -173,15 +173,35 @@ significantly more capable than the MicroLogix in the Michigan Wasterwater facil
 Next is the Human Machine Interface (HMI) model HMIS5T also by Schneider Electric. This is a
 graphical user interface for operating the system in the field. A custom user
 interface was developed to simulate a water tank filling up until hitting a set
-threshold. 
- 
- 
+threshold.
 
 \subsection{System Design}
-Subsection text here.
+To simulate exposed services across a network, we utilized the HMI's internal web server
+feature. This allows the HMI to display a useful diagnostics server over the network
+hosted as an HTTP server. This web page allows maintenance personnel to activate
+hidden options or examine other controls related issues. Without the need of of being
+near the HMI. This server is exposed without any user credential, and even with the
+log in information; HTTP is not a secured protocol. Any user with access to the switch
+can easily tap in and capture this information as .pcap files using tools like
+Wireshark, tcpdump and windump.
 
 \subsubsection{ICS Network Architecture}
-Subsubsection text here.
+As mentioned in the previous section, all traffic is copied to the guard using the
+port mirrored method. This experiment is designed specifically for building with
+older network architectures, or facilities in which network downtime is critical.
+The more robust method for securing this network would be an inline approach or to
+put it simply, adding the Guardian in front of the PLC and HMI in order to completely
+stop all malicious packets from ever reaching the devices. With that said the approach
+taken during the ControlShield program indicates near real-time response detection from
+malicious activity.
+
+\\Furthermore, the IP logic structure follows a very simple outline. All IP's from
+192.168.8.0-9 are considered authorized users with specific MAC addresses for their
+machines. 192.168.8.10-20 are controls devices, these IP's are for PLC's, VFD's, HMI's
+and other control level equipment with networking needs. finally 192.168.8.50-55 are
+for in-house servers or any IT level equipment. These IP's are all statically assigned
+and are tied to the equipment MAC address. Any device outside of these IP's are
+considered unknown and unauthorized user.
 
 \subsubsection{PLC Guardian Design}
 Subsubsection text here.

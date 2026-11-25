@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.27)  24 NOV 2026 16:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.27)  25 NOV 2026 10:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -364,7 +364,7 @@ Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-<images/RelayLadder.jpg, id=81, 830.10126pt x 763.85374pt>
+<images/RelayLadder.jpg, id=77, 830.10126pt x 763.85374pt>
 File: images/RelayLadder.jpg Graphic file (type jpg)
 <use images/RelayLadder.jpg>
 Package pdftex.def Info: images/RelayLadder.jpg  used on input line 78.
@@ -383,7 +383,7 @@ Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-<images/Modicon084.jpg, id=83, 321.2pt x 313.17pt>
+<images/Modicon084.jpg, id=79, 321.2pt x 313.17pt>
 File: images/Modicon084.jpg Graphic file (type jpg)
 <use images/Modicon084.jpg>
 Package pdftex.def Info: images/Modicon084.jpg  used on input line 92.
@@ -437,7 +437,7 @@ Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-<images/pdfdoc.png, id=97, 1748.78343pt x 1044.90375pt>
+<images/pdfdoc.png, id=93, 1748.78343pt x 1044.90375pt>
 File: images/pdfdoc.png Graphic file (type png)
 <use images/pdfdoc.png>
 Package pdftex.def Info: images/pdfdoc.png  used on input line 140.
@@ -456,7 +456,7 @@ Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-<images/topology.png, id=100, 2730.2pt x 1766.6pt>
+<images/topology.png, id=96, 2730.2pt x 1766.6pt>
 File: images/topology.png Graphic file (type png)
 <use images/topology.png>
 Package pdftex.def Info: images/topology.png  used on input line 164.
@@ -476,8 +476,22 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 [2 <./images/Modicon084.jpg> <./images/pdfdoc.png> <./images/topology.png>]
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.198 \\F
+         urthermore, the IP logic structure follows a very simple outline. A...
+
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
 ! Extra }, or forgotten \endgroup.
-l.247 ...perational-disruptions}{FBI Cyber Alert}}
+l.267 ...perational-disruptions}{FBI Cyber Alert}}
                                                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -485,42 +499,29 @@ you forgot something else, as in `\hbox{$x}'. In such cases
 the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
-[3
-
-] (./main.aux)
+[3] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 81B3B4CB3A27CB38197727A794FF74A3;2860
-(rerunfilecheck)             After:  DDA0081D039EF13F1FEBD82414578434;2727.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: DDA0081D039EF13F1FEBD82414578434;2727.
  ) 
 Here is how much of TeX's memory you used:
- 9279 strings out of 469515
- 146862 string characters out of 5470806
+ 9277 strings out of 469515
+ 146830 string characters out of 5470806
  572837 words of memory out of 5000000
- 37831 multiletter control sequences out of 15000+600000
+ 37830 multiletter control sequences out of 15000+600000
  661418 words of font info for 93 fonts, out of 8000000 for 9000
  17 hyphenation exceptions out of 8191
  75i,6n,79p,341b,441s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{IEEEbiography.3} has been referenced but does not e
-xist, replaced by a fixed one
-
-</usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/
-fonts/type1/urw/times/utmbi8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/
-utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (3 pages, 599479 bytes).
+</usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dis
+t/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texmf-dist/fonts/type1/urw/time
+s/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (3 pages, 601271 bytes).
 PDF statistics:
- 149 PDF objects out of 1000 (max. 8388607)
- 128 compressed objects within 2 object streams
- 32 named destinations out of 1000 (max. 500000)
- 173 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 145 PDF objects out of 1000 (max. 8388607)
+ 124 compressed objects within 2 object streams
+ 31 named destinations out of 1000 (max. 500000)
+ 165 words of extra memory for PDF output out of 10000 (max. 10000000)
 
