@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1795629999.87607 "main.tex" "main.pdf" "main" 1795630000.53496 2
+["pdflatex"] 1795836120.71722 "main.tex" "main.pdf" "main" 1795836121.35596 2
   "/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc" 1775415801 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1775415801 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1775415801 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -59,13 +59,14 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1775415801 43569 fd570f2fa160877d211e859f687312ba ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1793139994 5385779 47c0c393a77fd4a098bacfd57d66b88a ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1793139931 3084559 6f606dc67e8d08b429fd862e3f0166d2 ""
+  "images/HMI_80pct.png" 1795832862.94753 55811 07d3054ceec057d8e1e883434d25eeb0 ""
   "images/Modicon084.jpg" 1795543294.69431 22533 4cb6ad3e1074e19478cc06621e5b3979 ""
   "images/RelayLadder.jpg" 1795543194.7469 121901 a59ab9dca794033e4036bc9915c1d2bb ""
   "images/pdfdoc.png" 1795556490.91515 280983 6ee6dee0869e356e634a90e7879f15a9 ""
   "images/topology.png" 1795559554.55426 250742 c2a496cfebe6b7c65b02b54f9b2e543e ""
-  "main.aux" 1795630000.50771 3939 23848c8ac4136169324a1f17ab3f07d4 "pdflatex"
-  "main.out" 1795630000.50771 2727 dda0081d039ef13f1febd82414578434 "pdflatex"
-  "main.tex" 1795629998.04069 11914 89e6242184a769716080a775f6b77b58 ""
+  "main.aux" 1795836121.32068 4283 32b0cd6c8ba686e8ec5c0adb4d463473 "pdflatex"
+  "main.out" 1795836121.32168 2727 dda0081d039ef13f1febd82414578434 "pdflatex"
+  "main.tex" 1795836119.31567 12266 33021b1e40cb07d4406c858c07ce4f82 ""
   (generated)
   "main.aux"
   "main.log"

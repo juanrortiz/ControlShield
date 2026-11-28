@@ -170,10 +170,19 @@ traffic of the network and sending it directly to the newly installed Guardian.
 that is used in automating smaller applications such as a conveyors, water pumps,
 PID control loops and many other real world applications. This controller is
 significantly more capable than the MicroLogix in the Michigan Wasterwater facility.
-Next is the Human Machine Interface (HMI) model HMIS5T also by Schneider Electric. This is a
-graphical user interface for operating the system in the field. A custom user
+Next is the Human Machine Interface (HMI) model HMIS5T also by Schneider Electric. This
+is a graphical user interface for operating the system in the field. A custom user
 interface was developed to simulate a water tank filling up until hitting a set
-threshold.
+threshold (see in Figure~\ref{fig:tank80}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{images/HMI_80pct.png}
+  \caption{This is the graphical interface for the HMI that was made to simulate
+    the Waste Water Facility.}
+  \label{fig:tank80}
+\end{figure}
+
 
 \subsection{System Design}
 To simulate exposed services across a network, we utilized the HMI's internal web server
@@ -193,7 +202,8 @@ The more robust method for securing this network would be an inline approach or 
 put it simply, adding the Guardian in front of the PLC and HMI in order to completely
 stop all malicious packets from ever reaching the devices. With that said the approach
 taken during the ControlShield program indicates near real-time response detection from
-malicious activity.
+malicious activity. The PLC Guardian is logically interlocked with the Water Tanks control
+system.
 
 \\Furthermore, the IP logic structure follows a very simple outline. All IP's from
 192.168.8.0-9 are considered authorized users with specific MAC addresses for their
